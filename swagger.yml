@@ -1,0 +1,33 @@
+---
+swagger: '2.0'
+info:
+  version: 0.0.1
+  title: Rialto Entity Resolver
+paths:
+  /person:
+    get:
+      produces:
+        - text/plain
+      parameters:
+        - name: first_name
+          required: false
+          type: string
+          in: query
+          description: First name of the person
+        - name: last_name
+          required: false
+          type: string
+          in: query
+          description: Last name of the person
+        - name: orcid
+          required: false
+          type: string
+          in: query
+          description: ORCID of the person
+      operationId: findOrCreatePerson
+      responses:
+        200:
+          description: returns a URI for the person in Rialto
+          schema:
+            type: string
+            description: contains the actual URI
