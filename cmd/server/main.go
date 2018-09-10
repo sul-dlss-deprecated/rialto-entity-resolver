@@ -2,9 +2,12 @@ package main
 
 import (
 	"flag"
+	"fmt"
 	"log"
 
 	"github.com/go-openapi/loads"
+	"github.com/go-openapi/runtime/middleware"
+	"github.com/go-openapi/swag"
 	"github.com/sul-dlss-labs/rialto-entity-resolver/generated/restapi"
 	"github.com/sul-dlss-labs/rialto-entity-resolver/generated/restapi/operations"
 )
@@ -20,6 +23,15 @@ func main() {
 
 	// create new service API
 	api := operations.NewRialtoEntityResolverAPI(swaggerSpec)
+
+	api.FindOrCreatePersonHandler = operations.FindOrCreatePersonHandlerFunc(
+		func(params operations.FindOrCreatePersonParams) middleware.Responder {
+			name := swag.StringValue(params.LastName)
+
+			greeting := fmt.Sprintf("http://rialto.stanford.org/person/%s", name)
+			return operations.NewFindOrCreatePersonOK().WithPayload(greeting)
+		})
+
 	server := restapi.NewServer(api)
 	defer server.Shutdown()
 
