@@ -24,6 +24,28 @@ func init() {
     "version": "0.0.1"
   },
   "paths": {
+    "/healthcheck": {
+      "get": {
+        "produces": [
+          "application/json"
+        ],
+        "operationId": "healthCheck",
+        "responses": {
+          "200": {
+            "description": "The service is working properly",
+            "schema": {
+              "$ref": "#/definitions/HealthCheckResponse"
+            }
+          },
+          "503": {
+            "description": "The service is not working properly",
+            "schema": {
+              "$ref": "#/definitions/HealthCheckResponse"
+            }
+          }
+        }
+      }
+    },
     "/person": {
       "get": {
         "produces": [
@@ -61,6 +83,20 @@ func init() {
         }
       }
     }
+  },
+  "definitions": {
+    "HealthCheckResponse": {
+      "type": "object",
+      "properties": {
+        "status": {
+          "description": "The status of the service",
+          "type": "string"
+        }
+      },
+      "example": {
+        "status": "OK"
+      }
+    }
   }
 }`))
 	FlatSwaggerJSON = json.RawMessage([]byte(`{
@@ -70,6 +106,28 @@ func init() {
     "version": "0.0.1"
   },
   "paths": {
+    "/healthcheck": {
+      "get": {
+        "produces": [
+          "application/json"
+        ],
+        "operationId": "healthCheck",
+        "responses": {
+          "200": {
+            "description": "The service is working properly",
+            "schema": {
+              "$ref": "#/definitions/HealthCheckResponse"
+            }
+          },
+          "503": {
+            "description": "The service is not working properly",
+            "schema": {
+              "$ref": "#/definitions/HealthCheckResponse"
+            }
+          }
+        }
+      }
+    },
     "/person": {
       "get": {
         "produces": [
@@ -105,6 +163,20 @@ func init() {
             }
           }
         }
+      }
+    }
+  },
+  "definitions": {
+    "HealthCheckResponse": {
+      "type": "object",
+      "properties": {
+        "status": {
+          "description": "The status of the service",
+          "type": "string"
+        }
+      },
+      "example": {
+        "status": "OK"
       }
     }
   }
