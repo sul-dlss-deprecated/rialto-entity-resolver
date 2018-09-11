@@ -31,3 +31,26 @@ paths:
           schema:
             type: string
             description: contains the actual URI
+  /healthcheck:
+    get:
+      produces:
+        - application/json
+      operationId: healthCheck
+      responses:
+        200:
+          description: The service is working properly
+          schema:
+            $ref: "#/definitions/HealthCheckResponse"
+        503:
+          description: The service is not working properly
+          schema:
+            $ref: "#/definitions/HealthCheckResponse"
+definitions:
+  HealthCheckResponse:
+    type: object
+    properties:
+      status:
+        type: string
+        description: "The status of the service"
+    example:
+      status: "OK"

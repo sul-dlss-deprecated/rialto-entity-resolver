@@ -36,9 +36,13 @@ func NewRialtoEntityResolverAPI(spec *loads.Document) *RialtoEntityResolverAPI {
 		APIKeyAuthenticator: security.APIKeyAuth,
 		BearerAuthenticator: security.BearerAuth,
 		JSONConsumer:        runtime.JSONConsumer(),
+		JSONProducer:        runtime.JSONProducer(),
 		TxtProducer:         runtime.TextProducer(),
 		FindOrCreatePersonHandler: FindOrCreatePersonHandlerFunc(func(params FindOrCreatePersonParams) middleware.Responder {
 			return middleware.NotImplemented("operation FindOrCreatePerson has not yet been implemented")
+		}),
+		HealthCheckHandler: HealthCheckHandlerFunc(func(params HealthCheckParams) middleware.Responder {
+			return middleware.NotImplemented("operation HealthCheck has not yet been implemented")
 		}),
 	}
 }
@@ -68,11 +72,15 @@ type RialtoEntityResolverAPI struct {
 	// JSONConsumer registers a consumer for a "application/json" mime type
 	JSONConsumer runtime.Consumer
 
+	// JSONProducer registers a producer for a "application/json" mime type
+	JSONProducer runtime.Producer
 	// TxtProducer registers a producer for a "text/plain" mime type
 	TxtProducer runtime.Producer
 
 	// FindOrCreatePersonHandler sets the operation handler for the find or create person operation
 	FindOrCreatePersonHandler FindOrCreatePersonHandler
+	// HealthCheckHandler sets the operation handler for the health check operation
+	HealthCheckHandler HealthCheckHandler
 
 	// ServeError is called when an error is received, there is a default handler
 	// but you can set your own with this
@@ -132,12 +140,20 @@ func (o *RialtoEntityResolverAPI) Validate() error {
 		unregistered = append(unregistered, "JSONConsumer")
 	}
 
+	if o.JSONProducer == nil {
+		unregistered = append(unregistered, "JSONProducer")
+	}
+
 	if o.TxtProducer == nil {
 		unregistered = append(unregistered, "TxtProducer")
 	}
 
 	if o.FindOrCreatePersonHandler == nil {
 		unregistered = append(unregistered, "FindOrCreatePersonHandler")
+	}
+
+	if o.HealthCheckHandler == nil {
+		unregistered = append(unregistered, "HealthCheckHandler")
 	}
 
 	if len(unregistered) > 0 {
@@ -193,6 +209,9 @@ func (o *RialtoEntityResolverAPI) ProducersFor(mediaTypes []string) map[string]r
 	for _, mt := range mediaTypes {
 		switch mt {
 
+		case "application/json":
+			result["application/json"] = o.JSONProducer
+
 		case "text/plain":
 			result["text/plain"] = o.TxtProducer
 
@@ -242,6 +261,11 @@ func (o *RialtoEntityResolverAPI) initHandlerCache() {
 		o.handlers["GET"] = make(map[string]http.Handler)
 	}
 	o.handlers["GET"]["/person"] = NewFindOrCreatePerson(o.context, o.FindOrCreatePersonHandler)
+
+	if o.handlers["GET"] == nil {
+		o.handlers["GET"] = make(map[string]http.Handler)
+	}
+	o.handlers["GET"]["/healthcheck"] = NewHealthCheck(o.context, o.HealthCheckHandler)
 
 }
 

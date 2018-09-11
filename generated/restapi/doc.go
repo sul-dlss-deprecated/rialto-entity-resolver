@@ -13,6 +13,7 @@ Package restapi Rialto Entity Resolver
     - application/json
 
     Produces:
+    - application/json
     - text/plain
 
 swagger:meta

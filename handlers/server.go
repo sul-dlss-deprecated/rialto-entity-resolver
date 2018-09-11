@@ -13,6 +13,7 @@ func BuildAPI() *operations.RialtoEntityResolverAPI {
 	api := operations.NewRialtoEntityResolverAPI(swaggerSpec())
 
 	api.FindOrCreatePersonHandler = NewFindOrCreatePerson()
+	api.HealthCheckHandler = NewHealthCheck()
 
 	return api
 }
