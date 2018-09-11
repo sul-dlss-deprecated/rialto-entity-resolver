@@ -11,7 +11,7 @@ func NewHealthCheck() operations.HealthCheckHandler {
 	return &healthCheck{}
 }
 
-// findOrCreatePerson handles a request for finding & returning an entry
+// healthCheck handles a request for the health of the service
 type healthCheck struct{}
 
 // Handle the retrieve resource request
