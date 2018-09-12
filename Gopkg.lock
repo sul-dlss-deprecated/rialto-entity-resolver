@@ -27,7 +27,10 @@
 
 [[projects]]
   name = "github.com/go-openapi/analysis"
-  packages = [".","internal"]
+  packages = [
+    ".",
+    "internal"
+  ]
   revision = "7c1bef8f6d9fa6148ce0d8a0ebf5339a084a6639"
   version = "0.16.0"
 
@@ -57,7 +60,16 @@
 
 [[projects]]
   name = "github.com/go-openapi/runtime"
-  packages = [".","flagext","logger","middleware","middleware/denco","middleware/header","middleware/untyped","security"]
+  packages = [
+    ".",
+    "flagext",
+    "logger",
+    "middleware",
+    "middleware/denco",
+    "middleware/header",
+    "middleware/untyped",
+    "security"
+  ]
   revision = "9a3091f566c0811ef4d54b535179bc0fc484a11f"
   version = "0.16.0"
 
@@ -93,8 +105,30 @@
 
 [[projects]]
   branch = "master"
+  name = "github.com/knakk/digest"
+  packages = ["."]
+  revision = "fd45becddc49e7c583e46de4af3b9b3b37e629e3"
+
+[[projects]]
+  branch = "master"
+  name = "github.com/knakk/rdf"
+  packages = ["."]
+  revision = "b6ee24f8f40ff0580683aefb6831dad263a3f751"
+
+[[projects]]
+  branch = "master"
+  name = "github.com/knakk/sparql"
+  packages = ["."]
+  revision = "3de19ad6a5dcee30dd5e101b47e3aedc7f69ef57"
+
+[[projects]]
+  branch = "master"
   name = "github.com/mailru/easyjson"
-  packages = ["buffer","jlexer","jwriter"]
+  packages = [
+    "buffer",
+    "jlexer",
+    "jwriter"
+  ]
   revision = "60711f1a8329503b04e1c88535f419d0bb440bff"
 
 [[projects]]
@@ -104,21 +138,59 @@
   version = "v1.0.0"
 
 [[projects]]
+  name = "github.com/satori/go.uuid"
+  packages = ["."]
+  revision = "f58768cc1a7a7e77a3bd49e98cdd21419399b6a3"
+  version = "v1.2.0"
+
+[[projects]]
+  branch = "master"
+  name = "github.com/sul-dlss-labs/rialto-derivatives"
+  packages = [
+    "models",
+    "repository"
+  ]
+  revision = "ff7b8afb140e9d2341f5dbbb5b4566b357b9d298"
+
+[[projects]]
   branch = "master"
   name = "golang.org/x/net"
-  packages = ["context","idna","netutil"]
+  packages = [
+    "context",
+    "idna",
+    "netutil"
+  ]
   revision = "161cd47e91fd58ac17490ef4d742dc98bb4cf60e"
 
 [[projects]]
   name = "golang.org/x/text"
-  packages = ["collate","collate/build","internal/colltab","internal/gen","internal/tag","internal/triegen","internal/ucd","language","secure/bidirule","transform","unicode/bidi","unicode/cldr","unicode/norm","unicode/rangetable","width"]
+  packages = [
+    "collate",
+    "collate/build",
+    "internal/colltab",
+    "internal/gen",
+    "internal/tag",
+    "internal/triegen",
+    "internal/ucd",
+    "language",
+    "secure/bidirule",
+    "transform",
+    "unicode/bidi",
+    "unicode/cldr",
+    "unicode/norm",
+    "unicode/rangetable",
+    "width"
+  ]
   revision = "f21a4dfb5e38f5895301dc265a8def02365cc3d0"
   version = "v0.3.0"
 
 [[projects]]
   branch = "v2"
   name = "gopkg.in/mgo.v2"
-  packages = ["bson","internal/json"]
+  packages = [
+    "bson",
+    "internal/json"
+  ]
   revision = "9856a29383ce1c59f308dd1cf0363a79b5bef6b5"
 
 [[projects]]
@@ -130,6 +202,6 @@
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "e5a601352c7ade2470940affedca83d2c7aa98e0209f54a7b357a15d76dff138"
+  inputs-digest = "138c658a7e1953f64efe45200985b8bfd8549ba359c517c2301aa49edce486ae"
   solver-name = "gps-cdcl"
   solver-version = 1
