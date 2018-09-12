@@ -9,3 +9,14 @@ If the entity is not found in RIALTO, one will be created.
 ```
 swagger generate server -t generated --exclude-main
 ```
+
+## Run Server
+
+```
+SPARQL_ENDPOINT=http://localhost:9999/blazegraph/namespace/kb/sparql go run cmd/server/main.go --port 3001
+```
+
+## Make a request
+```
+curl http://localhost:3001/person?last_name=Giarlo&first_name=Mike&orcid=0000-0002-2100-6108
+```

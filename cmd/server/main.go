@@ -6,6 +6,8 @@ import (
 
 	"github.com/sul-dlss-labs/rialto-entity-resolver/generated/restapi"
 	"github.com/sul-dlss-labs/rialto-entity-resolver/handlers"
+	"github.com/sul-dlss-labs/rialto-entity-resolver/repository"
+	"github.com/sul-dlss-labs/rialto-entity-resolver/runtime"
 )
 
 var portFlag = flag.Int("port", 3000, "Port to run this service on")
@@ -21,7 +23,9 @@ func main() {
 }
 
 func createServer() *restapi.Server {
-	api := handlers.BuildAPI()
+	repo := repository.BuildRepository()
+	registry := runtime.NewRegistry(repo)
+	api := handlers.BuildAPI(registry)
 	server := restapi.NewServer(api)
 
 	// parse flags
