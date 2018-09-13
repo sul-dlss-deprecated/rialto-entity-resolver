@@ -14,10 +14,22 @@
   revision = "de5bf2ad457846296e2031421a34e2568e304e35"
 
 [[projects]]
+  name = "github.com/appleboy/gofight"
+  packages = ["."]
+  revision = "beadc315fb676177c07a89c34159b9ca4e1aafd9"
+  version = "v2.0.0"
+
+[[projects]]
   name = "github.com/asaskevich/govalidator"
   packages = ["."]
   revision = "ccb8e960c48f04d6935e72476ae4a51028f9e22f"
   version = "v9"
+
+[[projects]]
+  name = "github.com/davecgh/go-spew"
+  packages = ["spew"]
+  revision = "8991bc29aa16c548c550c7ff78260e27b9ab7c73"
+  version = "v1.1.1"
 
 [[projects]]
   name = "github.com/docker/go-units"
@@ -98,6 +110,12 @@
   version = "0.16.0"
 
 [[projects]]
+  branch = "update"
+  name = "github.com/jcoyne/sparql"
+  packages = ["."]
+  revision = "acc84a32e3a684c2533c37ff83e1e4dce694c291"
+
+[[projects]]
   name = "github.com/jessevdk/go-flags"
   packages = ["."]
   revision = "c6ca198ec95c841fdb89fc0de7496fed11ab854e"
@@ -117,12 +135,6 @@
 
 [[projects]]
   branch = "master"
-  name = "github.com/knakk/sparql"
-  packages = ["."]
-  revision = "3de19ad6a5dcee30dd5e101b47e3aedc7f69ef57"
-
-[[projects]]
-  branch = "master"
   name = "github.com/mailru/easyjson"
   packages = [
     "buffer",
@@ -138,19 +150,31 @@
   version = "v1.0.0"
 
 [[projects]]
+  name = "github.com/pmezard/go-difflib"
+  packages = ["difflib"]
+  revision = "792786c7400a136282c1664665ae0a8db921c6c2"
+  version = "v1.0.0"
+
+[[projects]]
   name = "github.com/satori/go.uuid"
   packages = ["."]
   revision = "f58768cc1a7a7e77a3bd49e98cdd21419399b6a3"
   version = "v1.2.0"
 
 [[projects]]
-  branch = "master"
-  name = "github.com/sul-dlss-labs/rialto-derivatives"
+  name = "github.com/stretchr/objx"
+  packages = ["."]
+  revision = "477a77ecc69700c7cdeb1fa9e129548e1c1c393c"
+  version = "v0.1.1"
+
+[[projects]]
+  name = "github.com/stretchr/testify"
   packages = [
-    "models",
-    "repository"
+    "assert",
+    "mock"
   ]
-  revision = "ff7b8afb140e9d2341f5dbbb5b4566b357b9d298"
+  revision = "f35b8ab0b5a2cef36673838d662e249dd9c94686"
+  version = "v1.2.2"
 
 [[projects]]
   branch = "master"
@@ -160,7 +184,7 @@
     "idna",
     "netutil"
   ]
-  revision = "161cd47e91fd58ac17490ef4d742dc98bb4cf60e"
+  revision = "26e67e76b6c3f6ce91f7c52def5af501b4e0f3a2"
 
 [[projects]]
   name = "golang.org/x/text"
@@ -202,6 +226,6 @@
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "138c658a7e1953f64efe45200985b8bfd8549ba359c517c2301aa49edce486ae"
+  inputs-digest = "a204ce9a12cc8d2e075018fe105b6312e2db4b9d02254d1e540629fc7440ce2d"
   solver-name = "gps-cdcl"
   solver-version = 1
