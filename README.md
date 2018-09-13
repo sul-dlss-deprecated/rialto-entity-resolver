@@ -13,7 +13,7 @@ swagger generate server -t generated --exclude-main
 ## Run Server
 
 ```
-SPARQL_ENDPOINT=http://localhost:9999/blazegraph/namespace/kb/sparql go run cmd/server/main.go --port 3001
+API_KEY=abc123 SPARQL_ENDPOINT=http://localhost:9999/blazegraph/namespace/kb/sparql go run cmd/server/main.go --port 3001
 ```
 
 ## Make a request

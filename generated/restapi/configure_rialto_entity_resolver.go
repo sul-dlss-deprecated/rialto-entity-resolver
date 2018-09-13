@@ -31,10 +31,25 @@ func configureAPI(api *operations.RialtoEntityResolverAPI) http.Handler {
 
 	api.JSONConsumer = runtime.JSONConsumer()
 
+	api.JSONProducer = runtime.JSONProducer()
+
 	api.TxtProducer = runtime.TextProducer()
 
-	api.FindOrCreatePersonHandler = operations.FindOrCreatePersonHandlerFunc(func(params operations.FindOrCreatePersonParams) middleware.Responder {
+	// Applies when the "X-API-Key" header is set
+	api.KeyAuth = func(token string) (interface{}, error) {
+		return nil, errors.NotImplemented("api key auth (key) X-API-Key from header param [X-API-Key] has not yet been implemented")
+	}
+
+	// Set your custom authorizer if needed. Default one is security.Authorized()
+	// Expected interface runtime.Authorizer
+	//
+	// Example:
+	// api.APIAuthorizer = security.Authorized()
+	api.FindOrCreatePersonHandler = operations.FindOrCreatePersonHandlerFunc(func(params operations.FindOrCreatePersonParams, principal interface{}) middleware.Responder {
 		return middleware.NotImplemented("operation .FindOrCreatePerson has not yet been implemented")
+	})
+	api.HealthCheckHandler = operations.HealthCheckHandlerFunc(func(params operations.HealthCheckParams) middleware.Responder {
+		return middleware.NotImplemented("operation .HealthCheck has not yet been implemented")
 	})
 
 	api.ServerShutdown = func() {}

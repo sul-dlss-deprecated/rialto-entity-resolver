@@ -2,6 +2,7 @@ package handlers
 
 import (
 	"net/http"
+	"os"
 	"testing"
 
 	"github.com/appleboy/gofight"
@@ -40,6 +41,7 @@ func (m *MockedRepo) CreatePerson(ops operations.FindOrCreatePersonParams) (*str
 }
 
 func TestLookupUserByName(t *testing.T) {
+	os.Setenv("API_KEY", "abcdefg")
 	r := gofight.New()
 	repo := new(MockedRepo)
 	id := "http://sul.stanford.edu/rialto/agents/people/8de0ce5e-a2a4-4e61-974e-df6c213cf220"
@@ -47,6 +49,9 @@ func TestLookupUserByName(t *testing.T) {
 		Return(&id, nil)
 	registry := &runtime.Registry{Repository: repo}
 	r.GET("/person?last_name=Collier&first_name=Aaron").
+		SetHeader(gofight.H{
+			"X-API-Key": "abcdefg",
+		}).
 		Run(BuildAPI(registry).Serve(nil),
 			func(r gofight.HTTPResponse, rq gofight.HTTPRequest) {
 				assert.Equal(t, http.StatusOK, r.Code)
@@ -61,6 +66,9 @@ func TestLookupUserByOrcid(t *testing.T) {
 		Return(&id, nil)
 	registry := &runtime.Registry{Repository: repo}
 	r.GET("/person?last_name=Collier&first_name=Aaron&orcid=0000-0000-0000-0012").
+		SetHeader(gofight.H{
+			"X-API-Key": "abcdefg",
+		}).
 		Run(BuildAPI(registry).Serve(nil),
 			func(r gofight.HTTPResponse, rq gofight.HTTPRequest) {
 				assert.Equal(t, http.StatusOK, r.Code)
@@ -79,6 +87,9 @@ func TestCreateUser(t *testing.T) {
 		Return(&id, nil)
 	registry := &runtime.Registry{Repository: repo}
 	r.GET("/person?last_name=Collier&first_name=Aaron&orcid=0000-0000-0000-0012").
+		SetHeader(gofight.H{
+			"X-API-Key": "abcdefg",
+		}).
 		Run(BuildAPI(registry).Serve(nil),
 			func(r gofight.HTTPResponse, rq gofight.HTTPRequest) {
 				assert.Equal(t, http.StatusOK, r.Code)
