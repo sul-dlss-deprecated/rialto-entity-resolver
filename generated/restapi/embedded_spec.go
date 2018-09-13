@@ -48,6 +48,11 @@ func init() {
     },
     "/person": {
       "get": {
+        "security": [
+          {
+            "key": []
+          }
+        ],
         "produces": [
           "text/plain"
         ],
@@ -96,6 +101,13 @@ func init() {
       "example": {
         "status": "OK"
       }
+    }
+  },
+  "securityDefinitions": {
+    "key": {
+      "type": "apiKey",
+      "name": "X-API-Key",
+      "in": "header"
     }
   }
 }`))
@@ -130,6 +142,11 @@ func init() {
     },
     "/person": {
       "get": {
+        "security": [
+          {
+            "key": []
+          }
+        ],
         "produces": [
           "text/plain"
         ],
@@ -178,6 +195,13 @@ func init() {
       "example": {
         "status": "OK"
       }
+    }
+  },
+  "securityDefinitions": {
+    "key": {
+      "type": "apiKey",
+      "name": "X-API-Key",
+      "in": "header"
     }
   }
 }`))

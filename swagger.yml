@@ -3,6 +3,11 @@ swagger: '2.0'
 info:
   version: 0.0.1
   title: Rialto Entity Resolver
+securityDefinitions:
+  key:
+    type: apiKey
+    in: header
+    name: X-API-Key
 paths:
   /person:
     get:
@@ -24,6 +29,8 @@ paths:
           type: string
           in: query
           description: ORCID of the person
+      security:
+        - key: []
       operationId: findOrCreatePerson
       responses:
         200:

@@ -38,12 +38,20 @@ func NewRialtoEntityResolverAPI(spec *loads.Document) *RialtoEntityResolverAPI {
 		JSONConsumer:        runtime.JSONConsumer(),
 		JSONProducer:        runtime.JSONProducer(),
 		TxtProducer:         runtime.TextProducer(),
-		FindOrCreatePersonHandler: FindOrCreatePersonHandlerFunc(func(params FindOrCreatePersonParams) middleware.Responder {
+		FindOrCreatePersonHandler: FindOrCreatePersonHandlerFunc(func(params FindOrCreatePersonParams, principal interface{}) middleware.Responder {
 			return middleware.NotImplemented("operation FindOrCreatePerson has not yet been implemented")
 		}),
 		HealthCheckHandler: HealthCheckHandlerFunc(func(params HealthCheckParams) middleware.Responder {
 			return middleware.NotImplemented("operation HealthCheck has not yet been implemented")
 		}),
+
+		// Applies when the "X-API-Key" header is set
+		KeyAuth: func(token string) (interface{}, error) {
+			return nil, errors.NotImplemented("api key auth (key) X-API-Key from header param [X-API-Key] has not yet been implemented")
+		},
+
+		// default authorizer is authorized meaning no requests are blocked
+		APIAuthorizer: security.Authorized(),
 	}
 }
 
@@ -76,6 +84,13 @@ type RialtoEntityResolverAPI struct {
 	JSONProducer runtime.Producer
 	// TxtProducer registers a producer for a "text/plain" mime type
 	TxtProducer runtime.Producer
+
+	// KeyAuth registers a function that takes a token and returns a principal
+	// it performs authentication based on an api key X-API-Key provided in the header
+	KeyAuth func(string) (interface{}, error)
+
+	// APIAuthorizer provides access control (ACL/RBAC/ABAC) by providing access to the request and authenticated principal
+	APIAuthorizer runtime.Authorizer
 
 	// FindOrCreatePersonHandler sets the operation handler for the find or create person operation
 	FindOrCreatePersonHandler FindOrCreatePersonHandler
@@ -148,6 +163,10 @@ func (o *RialtoEntityResolverAPI) Validate() error {
 		unregistered = append(unregistered, "TxtProducer")
 	}
 
+	if o.KeyAuth == nil {
+		unregistered = append(unregistered, "XAPIKeyAuth")
+	}
+
 	if o.FindOrCreatePersonHandler == nil {
 		unregistered = append(unregistered, "FindOrCreatePersonHandler")
 	}
@@ -171,14 +190,24 @@ func (o *RialtoEntityResolverAPI) ServeErrorFor(operationID string) func(http.Re
 // AuthenticatorsFor gets the authenticators for the specified security schemes
 func (o *RialtoEntityResolverAPI) AuthenticatorsFor(schemes map[string]spec.SecurityScheme) map[string]runtime.Authenticator {
 
-	return nil
+	result := make(map[string]runtime.Authenticator)
+	for name, scheme := range schemes {
+		switch name {
+
+		case "key":
+
+			result[name] = o.APIKeyAuthenticator(scheme.Name, scheme.In, o.KeyAuth)
+
+		}
+	}
+	return result
 
 }
 
 // Authorizer returns the registered authorizer
 func (o *RialtoEntityResolverAPI) Authorizer() runtime.Authorizer {
 
-	return nil
+	return o.APIAuthorizer
 
 }
 

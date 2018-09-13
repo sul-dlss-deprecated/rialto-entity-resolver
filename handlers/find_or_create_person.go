@@ -19,7 +19,7 @@ type findOrCreatePerson struct {
 }
 
 // Handle the retrieve resource request
-func (d *findOrCreatePerson) Handle(params operations.FindOrCreatePersonParams) middleware.Responder {
+func (d *findOrCreatePerson) Handle(params operations.FindOrCreatePersonParams, principal interface{}) middleware.Responder {
 	if params.Orcid != nil {
 		uri, err := d.registry.Repository.QueryForPersonByOrcid(*params.Orcid)
 		if err != nil {
