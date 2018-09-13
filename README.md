@@ -20,3 +20,21 @@ API_KEY=abc123 SPARQL_ENDPOINT=http://localhost:9999/blazegraph/namespace/kb/spa
 ```
 curl http://localhost:3001/person?last_name=Giarlo&first_name=Mike&orcid=0000-0002-2100-6108
 ```
+
+## Docker
+### Build
+```
+docker build -t suldlss/rialto-entity-resolver:latest .
+```
+### Run
+```
+docker run -p 3000:3001 \
+-e SPARQL_ENDPOINT=http://10.35.38.143:9999/blazegraph/namespace/kb/sparql \
+-e API_KEY=<key> \
+suldlss/rialto-entity-resolver:latest
+```
+
+### Deploy
+```
+docker push suldlss/rialto-entity-resolver:latest
+```
