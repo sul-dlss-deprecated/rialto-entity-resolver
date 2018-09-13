@@ -2,6 +2,7 @@ package repository
 
 import (
 	"fmt"
+	"log"
 
 	uuid "github.com/satori/go.uuid"
 	"github.com/sul-dlss-labs/rialto-entity-resolver/generated/restapi/operations"
@@ -67,6 +68,8 @@ func (m *Service) CreatePerson(params operations.FindOrCreatePersonParams) (*str
 	if params.FirstName != nil && params.LastName != nil {
 		triples = append(triples, fmt.Sprintf("<%s> <%s> \"%s, %s\"", id, vcardFn, *params.LastName, *params.FirstName))
 	}
+
+	log.Printf("Writing triples %v", triples)
 	err := m.reader.Insert(triples)
 	if err != nil {
 		return nil, err

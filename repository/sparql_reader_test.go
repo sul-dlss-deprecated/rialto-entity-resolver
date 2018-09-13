@@ -4,7 +4,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/knakk/sparql"
+	"github.com/jcoyne/sparql"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/mock"
 )
@@ -17,6 +17,10 @@ type MockedRepo struct {
 func (f *MockedRepo) Query(q string) (*sparql.Results, error) {
 	args := f.Called(q)
 	return args.Get(0).(*sparql.Results), args.Error(1)
+}
+
+func (f *MockedRepo) Update(q string) error {
+	return nil
 }
 
 func TestQueryByTypePredicateAndObject(t *testing.T) {
