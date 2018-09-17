@@ -66,6 +66,12 @@ func init() {
           },
           {
             "type": "string",
+            "description": "Full name of the person",
+            "name": "full_name",
+            "in": "query"
+          },
+          {
+            "type": "string",
             "description": "Last name of the person",
             "name": "last_name",
             "in": "query"
@@ -156,6 +162,12 @@ func init() {
             "type": "string",
             "description": "First name of the person",
             "name": "first_name",
+            "in": "query"
+          },
+          {
+            "type": "string",
+            "description": "Full name of the person",
+            "name": "full_name",
             "in": "query"
           },
           {

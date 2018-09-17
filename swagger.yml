@@ -19,6 +19,11 @@ paths:
           type: string
           in: query
           description: First name of the person
+        - name: full_name
+          required: false
+          type: string
+          in: query
+          description: Full name of the person
         - name: last_name
           required: false
           type: string

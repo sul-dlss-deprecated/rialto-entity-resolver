@@ -14,6 +14,7 @@ import (
 // FindOrCreatePersonURL generates an URL for the find or create person operation
 type FindOrCreatePersonURL struct {
 	FirstName *string
+	FullName  *string
 	LastName  *string
 	Orcid     *string
 
@@ -54,6 +55,14 @@ func (o *FindOrCreatePersonURL) Build() (*url.URL, error) {
 	}
 	if firstName != "" {
 		qs.Set("first_name", firstName)
+	}
+
+	var fullName string
+	if o.FullName != nil {
+		fullName = *o.FullName
+	}
+	if fullName != "" {
+		qs.Set("full_name", fullName)
 	}
 
 	var lastName string
