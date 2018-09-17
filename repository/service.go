@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"log"
 
-	uuid "github.com/satori/go.uuid"
 	"github.com/sul-dlss-labs/rialto-entity-resolver/generated/restapi/operations"
 )
 
@@ -59,20 +58,14 @@ func (m *Service) QueryForPersonByName(firstName string, lastName string) (*stri
 
 // CreatePerson creates a new person with the given parameters
 func (m *Service) CreatePerson(params operations.FindOrCreatePersonParams) (*string, error) {
-	u1 := uuid.NewV4()
-	id := fmt.Sprintf("http://sul.stanford.edu/rialto/agents/people/%s", u1)
-	triples := []string{fmt.Sprintf("<%s> a <%s>", id, personType)}
-	if params.Orcid != nil {
-		triples = append(triples, fmt.Sprintf("<%s> <%s> <%s>", id, orcidPredicate, *params.Orcid))
-	}
-	if params.FirstName != nil && params.LastName != nil {
-		triples = append(triples, fmt.Sprintf("<%s> <%s> \"%s, %s\"", id, vcardFn, *params.LastName, *params.FirstName))
-	}
-
-	log.Printf("Writing triples %v", triples)
-	err := m.reader.Insert(triples)
+	builder := &PersonBuilder{}
+	person, err := builder.Build(params)
 	if err != nil {
 		return nil, err
 	}
-	return &id, nil
+	log.Printf("Writing triples %v", person.Triples)
+	if err = m.reader.Insert(person.Triples); err != nil {
+		return nil, err
+	}
+	return &person.ID, nil
 }

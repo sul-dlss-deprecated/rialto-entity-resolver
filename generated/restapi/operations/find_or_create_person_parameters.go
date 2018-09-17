@@ -35,6 +35,10 @@ type FindOrCreatePersonParams struct {
 	  In: query
 	*/
 	FirstName *string
+	/*Full name of the person
+	  In: query
+	*/
+	FullName *string
 	/*Last name of the person
 	  In: query
 	*/
@@ -58,6 +62,11 @@ func (o *FindOrCreatePersonParams) BindRequest(r *http.Request, route *middlewar
 
 	qFirstName, qhkFirstName, _ := qs.GetOK("first_name")
 	if err := o.bindFirstName(qFirstName, qhkFirstName, route.Formats); err != nil {
+		res = append(res, err)
+	}
+
+	qFullName, qhkFullName, _ := qs.GetOK("full_name")
+	if err := o.bindFullName(qFullName, qhkFullName, route.Formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -91,6 +100,24 @@ func (o *FindOrCreatePersonParams) bindFirstName(rawData []string, hasKey bool, 
 	}
 
 	o.FirstName = &raw
+
+	return nil
+}
+
+// bindFullName binds and validates parameter FullName from query.
+func (o *FindOrCreatePersonParams) bindFullName(rawData []string, hasKey bool, formats strfmt.Registry) error {
+	var raw string
+	if len(rawData) > 0 {
+		raw = rawData[len(rawData)-1]
+	}
+
+	// Required: false
+	// AllowEmptyValue: false
+	if raw == "" { // empty values pass all other validations
+		return nil
+	}
+
+	o.FullName = &raw
 
 	return nil
 }

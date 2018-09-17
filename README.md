@@ -7,6 +7,7 @@ If the entity is not found in RIALTO, one will be created.
 ## Generate server
 
 ```
+rm -r generated/*
 swagger generate server -t generated --exclude-main
 ```
 
