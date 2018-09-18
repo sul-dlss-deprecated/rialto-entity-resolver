@@ -54,5 +54,5 @@
   name = "golang.org/x/net"
 
 [[constraint]]
-  branch = "update"
-  name = "github.com/jcoyne/sparql"
+  branch = "master"
+  name = "github.com/knakk/sparql"

@@ -7,7 +7,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/jcoyne/sparql"
+	"github.com/knakk/sparql"
 )
 
 // Reader reads from the data store

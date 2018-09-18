@@ -110,12 +110,6 @@
   version = "0.16.0"
 
 [[projects]]
-  branch = "update"
-  name = "github.com/jcoyne/sparql"
-  packages = ["."]
-  revision = "acc84a32e3a684c2533c37ff83e1e4dce694c291"
-
-[[projects]]
   name = "github.com/jessevdk/go-flags"
   packages = ["."]
   revision = "c6ca198ec95c841fdb89fc0de7496fed11ab854e"
@@ -132,6 +126,12 @@
   name = "github.com/knakk/rdf"
   packages = ["."]
   revision = "b6ee24f8f40ff0580683aefb6831dad263a3f751"
+
+[[projects]]
+  branch = "master"
+  name = "github.com/knakk/sparql"
+  packages = ["."]
+  revision = "f241008982115d27e7cbbf28b941858853873bfb"
 
 [[projects]]
   branch = "master"
@@ -226,6 +226,6 @@
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "a204ce9a12cc8d2e075018fe105b6312e2db4b9d02254d1e540629fc7440ce2d"
+  inputs-digest = "e2a3dd3b80eddd50c57cdaaf329c6c4b4426bf8766c98d7445ae3b7b857abf55"
   solver-name = "gps-cdcl"
   solver-version = 1
