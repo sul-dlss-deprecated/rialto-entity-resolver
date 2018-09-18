@@ -44,12 +44,26 @@ func (m *MockedRepo) QueryForOrganizationByName(name string) (*string, error) {
 	return nil, args.Error(1)
 }
 
+func (m *MockedRepo) QueryForTopicByName(name string) (*string, error) {
+	args := m.Called(name)
+	result := args.Get(0)
+	if result != nil {
+		return result.(*string), args.Error(1)
+	}
+	return nil, args.Error(1)
+}
+
 func (m *MockedRepo) CreatePerson(ops operations.FindOrCreatePersonParams) (*string, error) {
 	args := m.Called(ops)
 	return args.Get(0).(*string), args.Error(1)
 }
 
 func (m *MockedRepo) CreateOrganization(ops operations.FindOrCreateOrganizationParams) (*string, error) {
+	args := m.Called(ops)
+	return args.Get(0).(*string), args.Error(1)
+}
+
+func (m *MockedRepo) CreateTopic(ops operations.FindOrCreateTopicParams) (*string, error) {
 	args := m.Called(ops)
 	return args.Get(0).(*string), args.Error(1)
 }
