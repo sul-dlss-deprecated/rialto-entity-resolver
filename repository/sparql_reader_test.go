@@ -4,7 +4,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/jcoyne/sparql"
+	"github.com/knakk/sparql"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/mock"
 )
