@@ -11,8 +11,6 @@ import (
 	"github.com/sul-dlss-labs/rialto-entity-resolver/runtime"
 )
 
-// var portFlag = flag.Int("port", 3000, "Port to run this service on")
-
 func main() {
 	server := createServer()
 	defer server.Shutdown()
