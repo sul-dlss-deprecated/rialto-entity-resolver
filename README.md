@@ -40,7 +40,7 @@ docker build -t suldlss/rialto-entity-resolver:latest .
 ### Run
 
 ```
-docker run -p 3000:3001 \
+docker run -p 3000:3000 \
 -e SPARQL_ENDPOINT=http://10.35.38.143:9999/blazegraph/namespace/kb/sparql \
 -e API_KEY=<key> \
 suldlss/rialto-entity-resolver:latest
