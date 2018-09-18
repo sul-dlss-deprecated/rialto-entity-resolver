@@ -31,6 +31,10 @@ type FindOrCreatePersonParams struct {
 	// HTTP Request Object
 	HTTPRequest *http.Request `json:"-"`
 
+	/*The country that this person's affiated organization is in.
+	  In: query
+	*/
+	Country *string
 	/*First name of the person
 	  In: query
 	*/
@@ -47,6 +51,10 @@ type FindOrCreatePersonParams struct {
 	  In: query
 	*/
 	Orcid *string
+	/*The name of the organization this person is affiliated with.
+	  In: query
+	*/
+	Organization *string
 }
 
 // BindRequest both binds and validates a request, it assumes that complex things implement a Validatable(strfmt.Registry) error interface
@@ -59,6 +67,11 @@ func (o *FindOrCreatePersonParams) BindRequest(r *http.Request, route *middlewar
 	o.HTTPRequest = r
 
 	qs := runtime.Values(r.URL.Query())
+
+	qCountry, qhkCountry, _ := qs.GetOK("country")
+	if err := o.bindCountry(qCountry, qhkCountry, route.Formats); err != nil {
+		res = append(res, err)
+	}
 
 	qFirstName, qhkFirstName, _ := qs.GetOK("first_name")
 	if err := o.bindFirstName(qFirstName, qhkFirstName, route.Formats); err != nil {
@@ -80,9 +93,32 @@ func (o *FindOrCreatePersonParams) BindRequest(r *http.Request, route *middlewar
 		res = append(res, err)
 	}
 
+	qOrganization, qhkOrganization, _ := qs.GetOK("organization")
+	if err := o.bindOrganization(qOrganization, qhkOrganization, route.Formats); err != nil {
+		res = append(res, err)
+	}
+
 	if len(res) > 0 {
 		return errors.CompositeValidationError(res...)
 	}
+	return nil
+}
+
+// bindCountry binds and validates parameter Country from query.
+func (o *FindOrCreatePersonParams) bindCountry(rawData []string, hasKey bool, formats strfmt.Registry) error {
+	var raw string
+	if len(rawData) > 0 {
+		raw = rawData[len(rawData)-1]
+	}
+
+	// Required: false
+	// AllowEmptyValue: false
+	if raw == "" { // empty values pass all other validations
+		return nil
+	}
+
+	o.Country = &raw
+
 	return nil
 }
 
@@ -154,6 +190,24 @@ func (o *FindOrCreatePersonParams) bindOrcid(rawData []string, hasKey bool, form
 	}
 
 	o.Orcid = &raw
+
+	return nil
+}
+
+// bindOrganization binds and validates parameter Organization from query.
+func (o *FindOrCreatePersonParams) bindOrganization(rawData []string, hasKey bool, formats strfmt.Registry) error {
+	var raw string
+	if len(rawData) > 0 {
+		raw = rawData[len(rawData)-1]
+	}
+
+	// Required: false
+	// AllowEmptyValue: false
+	if raw == "" { // empty values pass all other validations
+		return nil
+	}
+
+	o.Organization = &raw
 
 	return nil
 }

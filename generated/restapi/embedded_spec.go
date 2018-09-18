@@ -46,6 +46,43 @@ func init() {
         }
       }
     },
+    "/organization": {
+      "get": {
+        "security": [
+          {
+            "key": []
+          }
+        ],
+        "produces": [
+          "text/plain"
+        ],
+        "operationId": "FindOrCreateOrganization",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "Name of the organization",
+            "name": "name",
+            "in": "query",
+            "required": true
+          },
+          {
+            "type": "string",
+            "description": "The country that this organization is in.",
+            "name": "country",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "returns a URI for the organization in Rialto",
+            "schema": {
+              "description": "contains the actual URI",
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
     "/person": {
       "get": {
         "security": [
@@ -80,6 +117,18 @@ func init() {
             "type": "string",
             "description": "ORCID of the person",
             "name": "orcid",
+            "in": "query"
+          },
+          {
+            "type": "string",
+            "description": "The country that this person's affiated organization is in.",
+            "name": "country",
+            "in": "query"
+          },
+          {
+            "type": "string",
+            "description": "The name of the organization this person is affiliated with.",
+            "name": "organization",
             "in": "query"
           }
         ],
@@ -146,6 +195,43 @@ func init() {
         }
       }
     },
+    "/organization": {
+      "get": {
+        "security": [
+          {
+            "key": []
+          }
+        ],
+        "produces": [
+          "text/plain"
+        ],
+        "operationId": "FindOrCreateOrganization",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "Name of the organization",
+            "name": "name",
+            "in": "query",
+            "required": true
+          },
+          {
+            "type": "string",
+            "description": "The country that this organization is in.",
+            "name": "country",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "returns a URI for the organization in Rialto",
+            "schema": {
+              "description": "contains the actual URI",
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
     "/person": {
       "get": {
         "security": [
@@ -180,6 +266,18 @@ func init() {
             "type": "string",
             "description": "ORCID of the person",
             "name": "orcid",
+            "in": "query"
+          },
+          {
+            "type": "string",
+            "description": "The country that this person's affiated organization is in.",
+            "name": "country",
+            "in": "query"
+          },
+          {
+            "type": "string",
+            "description": "The name of the organization this person is affiliated with.",
+            "name": "organization",
             "in": "query"
           }
         ],

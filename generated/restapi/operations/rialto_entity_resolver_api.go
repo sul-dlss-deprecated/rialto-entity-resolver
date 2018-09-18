@@ -38,6 +38,9 @@ func NewRialtoEntityResolverAPI(spec *loads.Document) *RialtoEntityResolverAPI {
 		JSONConsumer:        runtime.JSONConsumer(),
 		JSONProducer:        runtime.JSONProducer(),
 		TxtProducer:         runtime.TextProducer(),
+		FindOrCreateOrganizationHandler: FindOrCreateOrganizationHandlerFunc(func(params FindOrCreateOrganizationParams, principal interface{}) middleware.Responder {
+			return middleware.NotImplemented("operation FindOrCreateOrganization has not yet been implemented")
+		}),
 		FindOrCreatePersonHandler: FindOrCreatePersonHandlerFunc(func(params FindOrCreatePersonParams, principal interface{}) middleware.Responder {
 			return middleware.NotImplemented("operation FindOrCreatePerson has not yet been implemented")
 		}),
@@ -92,6 +95,8 @@ type RialtoEntityResolverAPI struct {
 	// APIAuthorizer provides access control (ACL/RBAC/ABAC) by providing access to the request and authenticated principal
 	APIAuthorizer runtime.Authorizer
 
+	// FindOrCreateOrganizationHandler sets the operation handler for the find or create organization operation
+	FindOrCreateOrganizationHandler FindOrCreateOrganizationHandler
 	// FindOrCreatePersonHandler sets the operation handler for the find or create person operation
 	FindOrCreatePersonHandler FindOrCreatePersonHandler
 	// HealthCheckHandler sets the operation handler for the health check operation
@@ -165,6 +170,10 @@ func (o *RialtoEntityResolverAPI) Validate() error {
 
 	if o.KeyAuth == nil {
 		unregistered = append(unregistered, "XAPIKeyAuth")
+	}
+
+	if o.FindOrCreateOrganizationHandler == nil {
+		unregistered = append(unregistered, "FindOrCreateOrganizationHandler")
 	}
 
 	if o.FindOrCreatePersonHandler == nil {
@@ -285,6 +294,11 @@ func (o *RialtoEntityResolverAPI) initHandlerCache() {
 	if o.handlers == nil {
 		o.handlers = make(map[string]map[string]http.Handler)
 	}
+
+	if o.handlers["GET"] == nil {
+		o.handlers["GET"] = make(map[string]http.Handler)
+	}
+	o.handlers["GET"]["/organization"] = NewFindOrCreateOrganization(o.context, o.FindOrCreateOrganizationHandler)
 
 	if o.handlers["GET"] == nil {
 		o.handlers["GET"] = make(map[string]http.Handler)

@@ -9,6 +9,30 @@ securityDefinitions:
     in: header
     name: X-API-Key
 paths:
+  /organization:
+    get:
+      produces:
+        - text/plain
+      parameters:
+        - name: name
+          required: true
+          type: string
+          in: query
+          description: Name of the organization
+        - name: country
+          required: false
+          type: string
+          in: query
+          description: The country that this organization is in.
+      security:
+        - key: []
+      operationId: FindOrCreateOrganization
+      responses:
+        200:
+          description: returns a URI for the organization in Rialto
+          schema:
+            type: string
+            description: contains the actual URI
   /person:
     get:
       produces:
@@ -34,6 +58,16 @@ paths:
           type: string
           in: query
           description: ORCID of the person
+        - name: country
+          required: false
+          type: string
+          in: query
+          description: The country that this person's affiated organization is in.
+        - name: organization
+          required: false
+          type: string
+          in: query
+          description: The name of the organization this person is affiliated with.
       security:
         - key: []
       operationId: findOrCreatePerson
