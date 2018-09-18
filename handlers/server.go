@@ -25,6 +25,7 @@ func BuildAPI(registry *runtime.Registry) *operations.RialtoEntityResolverAPI {
 		return "User", nil
 	}
 
+	api.FindOrCreateOrganizationHandler = NewFindOrCreateOrganization(registry)
 	api.FindOrCreatePersonHandler = NewFindOrCreatePerson(registry)
 	api.HealthCheckHandler = NewHealthCheck()
 
