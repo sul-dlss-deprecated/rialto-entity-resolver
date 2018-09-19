@@ -142,6 +142,37 @@ func init() {
           }
         }
       }
+    },
+    "/topic": {
+      "get": {
+        "security": [
+          {
+            "key": []
+          }
+        ],
+        "produces": [
+          "text/plain"
+        ],
+        "operationId": "FindOrCreateTopic",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "Name of the topic",
+            "name": "name",
+            "in": "query",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "returns a URI for the topic in RIALTO",
+            "schema": {
+              "description": "contains the actual URI",
+              "type": "string"
+            }
+          }
+        }
+      }
     }
   },
   "definitions": {
@@ -284,6 +315,37 @@ func init() {
         "responses": {
           "200": {
             "description": "returns a URI for the person in Rialto",
+            "schema": {
+              "description": "contains the actual URI",
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "/topic": {
+      "get": {
+        "security": [
+          {
+            "key": []
+          }
+        ],
+        "produces": [
+          "text/plain"
+        ],
+        "operationId": "FindOrCreateTopic",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "Name of the topic",
+            "name": "name",
+            "in": "query",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "returns a URI for the topic in RIALTO",
             "schema": {
               "description": "contains the actual URI",
               "type": "string"

@@ -9,6 +9,25 @@ securityDefinitions:
     in: header
     name: X-API-Key
 paths:
+  /topic:
+    get:
+      produces:
+        - text/plain
+      parameters:
+        - name: name
+          required: true
+          type: string
+          in: query
+          description: Name of the topic
+      security:
+        - key: []
+      operationId: FindOrCreateTopic
+      responses:
+        200:
+          description: returns a URI for the topic in RIALTO
+          schema:
+            type: string
+            description: contains the actual URI
   /organization:
     get:
       produces:

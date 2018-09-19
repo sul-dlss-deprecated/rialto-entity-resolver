@@ -41,6 +41,9 @@ func NewRialtoEntityResolverAPI(spec *loads.Document) *RialtoEntityResolverAPI {
 		FindOrCreateOrganizationHandler: FindOrCreateOrganizationHandlerFunc(func(params FindOrCreateOrganizationParams, principal interface{}) middleware.Responder {
 			return middleware.NotImplemented("operation FindOrCreateOrganization has not yet been implemented")
 		}),
+		FindOrCreateTopicHandler: FindOrCreateTopicHandlerFunc(func(params FindOrCreateTopicParams, principal interface{}) middleware.Responder {
+			return middleware.NotImplemented("operation FindOrCreateTopic has not yet been implemented")
+		}),
 		FindOrCreatePersonHandler: FindOrCreatePersonHandlerFunc(func(params FindOrCreatePersonParams, principal interface{}) middleware.Responder {
 			return middleware.NotImplemented("operation FindOrCreatePerson has not yet been implemented")
 		}),
@@ -97,6 +100,8 @@ type RialtoEntityResolverAPI struct {
 
 	// FindOrCreateOrganizationHandler sets the operation handler for the find or create organization operation
 	FindOrCreateOrganizationHandler FindOrCreateOrganizationHandler
+	// FindOrCreateTopicHandler sets the operation handler for the find or create topic operation
+	FindOrCreateTopicHandler FindOrCreateTopicHandler
 	// FindOrCreatePersonHandler sets the operation handler for the find or create person operation
 	FindOrCreatePersonHandler FindOrCreatePersonHandler
 	// HealthCheckHandler sets the operation handler for the health check operation
@@ -174,6 +179,10 @@ func (o *RialtoEntityResolverAPI) Validate() error {
 
 	if o.FindOrCreateOrganizationHandler == nil {
 		unregistered = append(unregistered, "FindOrCreateOrganizationHandler")
+	}
+
+	if o.FindOrCreateTopicHandler == nil {
+		unregistered = append(unregistered, "FindOrCreateTopicHandler")
 	}
 
 	if o.FindOrCreatePersonHandler == nil {
@@ -299,6 +308,11 @@ func (o *RialtoEntityResolverAPI) initHandlerCache() {
 		o.handlers["GET"] = make(map[string]http.Handler)
 	}
 	o.handlers["GET"]["/organization"] = NewFindOrCreateOrganization(o.context, o.FindOrCreateOrganizationHandler)
+
+	if o.handlers["GET"] == nil {
+		o.handlers["GET"] = make(map[string]http.Handler)
+	}
+	o.handlers["GET"]["/topic"] = NewFindOrCreateTopic(o.context, o.FindOrCreateTopicHandler)
 
 	if o.handlers["GET"] == nil {
 		o.handlers["GET"] = make(map[string]http.Handler)

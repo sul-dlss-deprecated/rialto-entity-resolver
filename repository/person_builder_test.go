@@ -40,12 +40,26 @@ func (m *MockedRepository) QueryForOrganizationByName(name string) (*string, err
 	return nil, args.Error(1)
 }
 
+func (m *MockedRepository) QueryForTopicByName(name string) (*string, error) {
+	args := m.Called(name)
+	result := args.Get(0)
+	if result != nil {
+		return result.(*string), args.Error(1)
+	}
+	return nil, args.Error(1)
+}
+
 func (m *MockedRepository) CreatePerson(ops operations.FindOrCreatePersonParams) (*string, error) {
 	args := m.Called(ops)
 	return args.Get(0).(*string), args.Error(1)
 }
 
 func (m *MockedRepository) CreateOrganization(ops operations.FindOrCreateOrganizationParams) (*string, error) {
+	args := m.Called(ops)
+	return args.Get(0).(*string), args.Error(1)
+}
+
+func (m *MockedRepository) CreateTopic(ops operations.FindOrCreateTopicParams) (*string, error) {
 	args := m.Called(ops)
 	return args.Get(0).(*string), args.Error(1)
 }
