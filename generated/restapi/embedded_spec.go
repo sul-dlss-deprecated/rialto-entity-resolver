@@ -56,7 +56,7 @@ func init() {
         "produces": [
           "text/plain"
         ],
-        "operationId": "FindOrCreateOrganization",
+        "operationId": "FindOrganization",
         "parameters": [
           {
             "type": "string",
@@ -79,6 +79,12 @@ func init() {
               "description": "contains the actual URI",
               "type": "string"
             }
+          },
+          "404": {
+            "description": "Organization not found",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
           }
         }
       }
@@ -93,7 +99,7 @@ func init() {
         "produces": [
           "text/plain"
         ],
-        "operationId": "findOrCreatePerson",
+        "operationId": "findPerson",
         "parameters": [
           {
             "type": "string",
@@ -118,18 +124,6 @@ func init() {
             "description": "ORCID of the person",
             "name": "orcid",
             "in": "query"
-          },
-          {
-            "type": "string",
-            "description": "The country that this person's affiated organization is in.",
-            "name": "country",
-            "in": "query"
-          },
-          {
-            "type": "string",
-            "description": "The name of the organization this person is affiliated with.",
-            "name": "organization",
-            "in": "query"
           }
         ],
         "responses": {
@@ -138,6 +132,12 @@ func init() {
             "schema": {
               "description": "contains the actual URI",
               "type": "string"
+            }
+          },
+          "404": {
+            "description": "Person not found",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
             }
           }
         }
@@ -153,7 +153,7 @@ func init() {
         "produces": [
           "text/plain"
         ],
-        "operationId": "FindOrCreateTopic",
+        "operationId": "FindTopic",
         "parameters": [
           {
             "type": "string",
@@ -170,12 +170,49 @@ func init() {
               "description": "contains the actual URI",
               "type": "string"
             }
+          },
+          "404": {
+            "description": "Topic not found",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
           }
         }
       }
     }
   },
   "definitions": {
+    "Error": {
+      "type": "object",
+      "properties": {
+        "detail": {
+          "description": "a human-readable explanation specific to this occurrence of the problem.",
+          "type": "string",
+          "example": "Title must contain at least three characters."
+        },
+        "status": {
+          "description": "the HTTP status code applicable to this problem, expressed as a string value.",
+          "type": "string",
+          "example": 404
+        },
+        "title": {
+          "description": "a short, human-readable summary of the problem that SHOULD NOT change from occurrence to occurrence of the problem.",
+          "type": "string",
+          "example": "Invalid Attribute"
+        }
+      }
+    },
+    "ErrorResponse": {
+      "type": "object",
+      "properties": {
+        "errors": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Error"
+          }
+        }
+      }
+    },
     "HealthCheckResponse": {
       "type": "object",
       "properties": {
@@ -236,7 +273,7 @@ func init() {
         "produces": [
           "text/plain"
         ],
-        "operationId": "FindOrCreateOrganization",
+        "operationId": "FindOrganization",
         "parameters": [
           {
             "type": "string",
@@ -259,6 +296,12 @@ func init() {
               "description": "contains the actual URI",
               "type": "string"
             }
+          },
+          "404": {
+            "description": "Organization not found",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
           }
         }
       }
@@ -273,7 +316,7 @@ func init() {
         "produces": [
           "text/plain"
         ],
-        "operationId": "findOrCreatePerson",
+        "operationId": "findPerson",
         "parameters": [
           {
             "type": "string",
@@ -298,18 +341,6 @@ func init() {
             "description": "ORCID of the person",
             "name": "orcid",
             "in": "query"
-          },
-          {
-            "type": "string",
-            "description": "The country that this person's affiated organization is in.",
-            "name": "country",
-            "in": "query"
-          },
-          {
-            "type": "string",
-            "description": "The name of the organization this person is affiliated with.",
-            "name": "organization",
-            "in": "query"
           }
         ],
         "responses": {
@@ -318,6 +349,12 @@ func init() {
             "schema": {
               "description": "contains the actual URI",
               "type": "string"
+            }
+          },
+          "404": {
+            "description": "Person not found",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
             }
           }
         }
@@ -333,7 +370,7 @@ func init() {
         "produces": [
           "text/plain"
         ],
-        "operationId": "FindOrCreateTopic",
+        "operationId": "FindTopic",
         "parameters": [
           {
             "type": "string",
@@ -350,12 +387,49 @@ func init() {
               "description": "contains the actual URI",
               "type": "string"
             }
+          },
+          "404": {
+            "description": "Topic not found",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
           }
         }
       }
     }
   },
   "definitions": {
+    "Error": {
+      "type": "object",
+      "properties": {
+        "detail": {
+          "description": "a human-readable explanation specific to this occurrence of the problem.",
+          "type": "string",
+          "example": "Title must contain at least three characters."
+        },
+        "status": {
+          "description": "the HTTP status code applicable to this problem, expressed as a string value.",
+          "type": "string",
+          "example": 404
+        },
+        "title": {
+          "description": "a short, human-readable summary of the problem that SHOULD NOT change from occurrence to occurrence of the problem.",
+          "type": "string",
+          "example": "Invalid Attribute"
+        }
+      }
+    },
+    "ErrorResponse": {
+      "type": "object",
+      "properties": {
+        "errors": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Error"
+          }
+        }
+      }
+    },
     "HealthCheckResponse": {
       "type": "object",
       "properties": {

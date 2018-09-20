@@ -11,10 +11,9 @@ import (
 	golangswaggerpaths "path"
 )
 
-// FindOrCreateOrganizationURL generates an URL for the find or create organization operation
-type FindOrCreateOrganizationURL struct {
-	Country *string
-	Name    string
+// FindTopicURL generates an URL for the find topic operation
+type FindTopicURL struct {
+	Name string
 
 	_basePath string
 	// avoid unkeyed usage
@@ -24,7 +23,7 @@ type FindOrCreateOrganizationURL struct {
 // WithBasePath sets the base path for this url builder, only required when it's different from the
 // base path specified in the swagger spec.
 // When the value of the base path is an empty string
-func (o *FindOrCreateOrganizationURL) WithBasePath(bp string) *FindOrCreateOrganizationURL {
+func (o *FindTopicURL) WithBasePath(bp string) *FindTopicURL {
 	o.SetBasePath(bp)
 	return o
 }
@@ -32,28 +31,20 @@ func (o *FindOrCreateOrganizationURL) WithBasePath(bp string) *FindOrCreateOrgan
 // SetBasePath sets the base path for this url builder, only required when it's different from the
 // base path specified in the swagger spec.
 // When the value of the base path is an empty string
-func (o *FindOrCreateOrganizationURL) SetBasePath(bp string) {
+func (o *FindTopicURL) SetBasePath(bp string) {
 	o._basePath = bp
 }
 
 // Build a url path and query string
-func (o *FindOrCreateOrganizationURL) Build() (*url.URL, error) {
+func (o *FindTopicURL) Build() (*url.URL, error) {
 	var result url.URL
 
-	var _path = "/organization"
+	var _path = "/topic"
 
 	_basePath := o._basePath
 	result.Path = golangswaggerpaths.Join(_basePath, _path)
 
 	qs := make(url.Values)
-
-	var country string
-	if o.Country != nil {
-		country = *o.Country
-	}
-	if country != "" {
-		qs.Set("country", country)
-	}
 
 	name := o.Name
 	if name != "" {
@@ -66,7 +57,7 @@ func (o *FindOrCreateOrganizationURL) Build() (*url.URL, error) {
 }
 
 // Must is a helper function to panic when the url builder returns an error
-func (o *FindOrCreateOrganizationURL) Must(u *url.URL, err error) *url.URL {
+func (o *FindTopicURL) Must(u *url.URL, err error) *url.URL {
 	if err != nil {
 		panic(err)
 	}
@@ -77,17 +68,17 @@ func (o *FindOrCreateOrganizationURL) Must(u *url.URL, err error) *url.URL {
 }
 
 // String returns the string representation of the path with query string
-func (o *FindOrCreateOrganizationURL) String() string {
+func (o *FindTopicURL) String() string {
 	return o.Must(o.Build()).String()
 }
 
 // BuildFull builds a full url with scheme, host, path and query string
-func (o *FindOrCreateOrganizationURL) BuildFull(scheme, host string) (*url.URL, error) {
+func (o *FindTopicURL) BuildFull(scheme, host string) (*url.URL, error) {
 	if scheme == "" {
-		return nil, errors.New("scheme is required for a full url on FindOrCreateOrganizationURL")
+		return nil, errors.New("scheme is required for a full url on FindTopicURL")
 	}
 	if host == "" {
-		return nil, errors.New("host is required for a full url on FindOrCreateOrganizationURL")
+		return nil, errors.New("host is required for a full url on FindTopicURL")
 	}
 
 	base, err := o.Build()
@@ -101,6 +92,6 @@ func (o *FindOrCreateOrganizationURL) BuildFull(scheme, host string) (*url.URL, 
 }
 
 // StringFull returns the string representation of a complete url
-func (o *FindOrCreateOrganizationURL) StringFull(scheme, host string) string {
+func (o *FindTopicURL) StringFull(scheme, host string) string {
 	return o.Must(o.BuildFull(scheme, host)).String()
 }
