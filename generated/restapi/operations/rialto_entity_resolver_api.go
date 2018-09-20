@@ -38,14 +38,14 @@ func NewRialtoEntityResolverAPI(spec *loads.Document) *RialtoEntityResolverAPI {
 		JSONConsumer:        runtime.JSONConsumer(),
 		JSONProducer:        runtime.JSONProducer(),
 		TxtProducer:         runtime.TextProducer(),
-		FindOrCreateOrganizationHandler: FindOrCreateOrganizationHandlerFunc(func(params FindOrCreateOrganizationParams, principal interface{}) middleware.Responder {
-			return middleware.NotImplemented("operation FindOrCreateOrganization has not yet been implemented")
+		FindOrganizationHandler: FindOrganizationHandlerFunc(func(params FindOrganizationParams, principal interface{}) middleware.Responder {
+			return middleware.NotImplemented("operation FindOrganization has not yet been implemented")
 		}),
-		FindOrCreateTopicHandler: FindOrCreateTopicHandlerFunc(func(params FindOrCreateTopicParams, principal interface{}) middleware.Responder {
-			return middleware.NotImplemented("operation FindOrCreateTopic has not yet been implemented")
+		FindTopicHandler: FindTopicHandlerFunc(func(params FindTopicParams, principal interface{}) middleware.Responder {
+			return middleware.NotImplemented("operation FindTopic has not yet been implemented")
 		}),
-		FindOrCreatePersonHandler: FindOrCreatePersonHandlerFunc(func(params FindOrCreatePersonParams, principal interface{}) middleware.Responder {
-			return middleware.NotImplemented("operation FindOrCreatePerson has not yet been implemented")
+		FindPersonHandler: FindPersonHandlerFunc(func(params FindPersonParams, principal interface{}) middleware.Responder {
+			return middleware.NotImplemented("operation FindPerson has not yet been implemented")
 		}),
 		HealthCheckHandler: HealthCheckHandlerFunc(func(params HealthCheckParams) middleware.Responder {
 			return middleware.NotImplemented("operation HealthCheck has not yet been implemented")
@@ -98,12 +98,12 @@ type RialtoEntityResolverAPI struct {
 	// APIAuthorizer provides access control (ACL/RBAC/ABAC) by providing access to the request and authenticated principal
 	APIAuthorizer runtime.Authorizer
 
-	// FindOrCreateOrganizationHandler sets the operation handler for the find or create organization operation
-	FindOrCreateOrganizationHandler FindOrCreateOrganizationHandler
-	// FindOrCreateTopicHandler sets the operation handler for the find or create topic operation
-	FindOrCreateTopicHandler FindOrCreateTopicHandler
-	// FindOrCreatePersonHandler sets the operation handler for the find or create person operation
-	FindOrCreatePersonHandler FindOrCreatePersonHandler
+	// FindOrganizationHandler sets the operation handler for the find organization operation
+	FindOrganizationHandler FindOrganizationHandler
+	// FindTopicHandler sets the operation handler for the find topic operation
+	FindTopicHandler FindTopicHandler
+	// FindPersonHandler sets the operation handler for the find person operation
+	FindPersonHandler FindPersonHandler
 	// HealthCheckHandler sets the operation handler for the health check operation
 	HealthCheckHandler HealthCheckHandler
 
@@ -177,16 +177,16 @@ func (o *RialtoEntityResolverAPI) Validate() error {
 		unregistered = append(unregistered, "XAPIKeyAuth")
 	}
 
-	if o.FindOrCreateOrganizationHandler == nil {
-		unregistered = append(unregistered, "FindOrCreateOrganizationHandler")
+	if o.FindOrganizationHandler == nil {
+		unregistered = append(unregistered, "FindOrganizationHandler")
 	}
 
-	if o.FindOrCreateTopicHandler == nil {
-		unregistered = append(unregistered, "FindOrCreateTopicHandler")
+	if o.FindTopicHandler == nil {
+		unregistered = append(unregistered, "FindTopicHandler")
 	}
 
-	if o.FindOrCreatePersonHandler == nil {
-		unregistered = append(unregistered, "FindOrCreatePersonHandler")
+	if o.FindPersonHandler == nil {
+		unregistered = append(unregistered, "FindPersonHandler")
 	}
 
 	if o.HealthCheckHandler == nil {
@@ -307,17 +307,17 @@ func (o *RialtoEntityResolverAPI) initHandlerCache() {
 	if o.handlers["GET"] == nil {
 		o.handlers["GET"] = make(map[string]http.Handler)
 	}
-	o.handlers["GET"]["/organization"] = NewFindOrCreateOrganization(o.context, o.FindOrCreateOrganizationHandler)
+	o.handlers["GET"]["/organization"] = NewFindOrganization(o.context, o.FindOrganizationHandler)
 
 	if o.handlers["GET"] == nil {
 		o.handlers["GET"] = make(map[string]http.Handler)
 	}
-	o.handlers["GET"]["/topic"] = NewFindOrCreateTopic(o.context, o.FindOrCreateTopicHandler)
+	o.handlers["GET"]["/topic"] = NewFindTopic(o.context, o.FindTopicHandler)
 
 	if o.handlers["GET"] == nil {
 		o.handlers["GET"] = make(map[string]http.Handler)
 	}
-	o.handlers["GET"]["/person"] = NewFindOrCreatePerson(o.context, o.FindOrCreatePersonHandler)
+	o.handlers["GET"]["/person"] = NewFindPerson(o.context, o.FindPersonHandler)
 
 	if o.handlers["GET"] == nil {
 		o.handlers["GET"] = make(map[string]http.Handler)

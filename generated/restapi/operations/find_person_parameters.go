@@ -15,26 +15,22 @@ import (
 	strfmt "github.com/go-openapi/strfmt"
 )
 
-// NewFindOrCreatePersonParams creates a new FindOrCreatePersonParams object
+// NewFindPersonParams creates a new FindPersonParams object
 // no default values defined in spec.
-func NewFindOrCreatePersonParams() FindOrCreatePersonParams {
+func NewFindPersonParams() FindPersonParams {
 
-	return FindOrCreatePersonParams{}
+	return FindPersonParams{}
 }
 
-// FindOrCreatePersonParams contains all the bound params for the find or create person operation
+// FindPersonParams contains all the bound params for the find person operation
 // typically these are obtained from a http.Request
 //
-// swagger:parameters findOrCreatePerson
-type FindOrCreatePersonParams struct {
+// swagger:parameters findPerson
+type FindPersonParams struct {
 
 	// HTTP Request Object
 	HTTPRequest *http.Request `json:"-"`
 
-	/*The country that this person's affiated organization is in.
-	  In: query
-	*/
-	Country *string
 	/*First name of the person
 	  In: query
 	*/
@@ -51,27 +47,18 @@ type FindOrCreatePersonParams struct {
 	  In: query
 	*/
 	Orcid *string
-	/*The name of the organization this person is affiliated with.
-	  In: query
-	*/
-	Organization *string
 }
 
 // BindRequest both binds and validates a request, it assumes that complex things implement a Validatable(strfmt.Registry) error interface
 // for simple values it will use straight method calls.
 //
-// To ensure default values, the struct must have been initialized with NewFindOrCreatePersonParams() beforehand.
-func (o *FindOrCreatePersonParams) BindRequest(r *http.Request, route *middleware.MatchedRoute) error {
+// To ensure default values, the struct must have been initialized with NewFindPersonParams() beforehand.
+func (o *FindPersonParams) BindRequest(r *http.Request, route *middleware.MatchedRoute) error {
 	var res []error
 
 	o.HTTPRequest = r
 
 	qs := runtime.Values(r.URL.Query())
-
-	qCountry, qhkCountry, _ := qs.GetOK("country")
-	if err := o.bindCountry(qCountry, qhkCountry, route.Formats); err != nil {
-		res = append(res, err)
-	}
 
 	qFirstName, qhkFirstName, _ := qs.GetOK("first_name")
 	if err := o.bindFirstName(qFirstName, qhkFirstName, route.Formats); err != nil {
@@ -93,37 +80,14 @@ func (o *FindOrCreatePersonParams) BindRequest(r *http.Request, route *middlewar
 		res = append(res, err)
 	}
 
-	qOrganization, qhkOrganization, _ := qs.GetOK("organization")
-	if err := o.bindOrganization(qOrganization, qhkOrganization, route.Formats); err != nil {
-		res = append(res, err)
-	}
-
 	if len(res) > 0 {
 		return errors.CompositeValidationError(res...)
 	}
 	return nil
 }
 
-// bindCountry binds and validates parameter Country from query.
-func (o *FindOrCreatePersonParams) bindCountry(rawData []string, hasKey bool, formats strfmt.Registry) error {
-	var raw string
-	if len(rawData) > 0 {
-		raw = rawData[len(rawData)-1]
-	}
-
-	// Required: false
-	// AllowEmptyValue: false
-	if raw == "" { // empty values pass all other validations
-		return nil
-	}
-
-	o.Country = &raw
-
-	return nil
-}
-
 // bindFirstName binds and validates parameter FirstName from query.
-func (o *FindOrCreatePersonParams) bindFirstName(rawData []string, hasKey bool, formats strfmt.Registry) error {
+func (o *FindPersonParams) bindFirstName(rawData []string, hasKey bool, formats strfmt.Registry) error {
 	var raw string
 	if len(rawData) > 0 {
 		raw = rawData[len(rawData)-1]
@@ -141,7 +105,7 @@ func (o *FindOrCreatePersonParams) bindFirstName(rawData []string, hasKey bool, 
 }
 
 // bindFullName binds and validates parameter FullName from query.
-func (o *FindOrCreatePersonParams) bindFullName(rawData []string, hasKey bool, formats strfmt.Registry) error {
+func (o *FindPersonParams) bindFullName(rawData []string, hasKey bool, formats strfmt.Registry) error {
 	var raw string
 	if len(rawData) > 0 {
 		raw = rawData[len(rawData)-1]
@@ -159,7 +123,7 @@ func (o *FindOrCreatePersonParams) bindFullName(rawData []string, hasKey bool, f
 }
 
 // bindLastName binds and validates parameter LastName from query.
-func (o *FindOrCreatePersonParams) bindLastName(rawData []string, hasKey bool, formats strfmt.Registry) error {
+func (o *FindPersonParams) bindLastName(rawData []string, hasKey bool, formats strfmt.Registry) error {
 	var raw string
 	if len(rawData) > 0 {
 		raw = rawData[len(rawData)-1]
@@ -177,7 +141,7 @@ func (o *FindOrCreatePersonParams) bindLastName(rawData []string, hasKey bool, f
 }
 
 // bindOrcid binds and validates parameter Orcid from query.
-func (o *FindOrCreatePersonParams) bindOrcid(rawData []string, hasKey bool, formats strfmt.Registry) error {
+func (o *FindPersonParams) bindOrcid(rawData []string, hasKey bool, formats strfmt.Registry) error {
 	var raw string
 	if len(rawData) > 0 {
 		raw = rawData[len(rawData)-1]
@@ -190,24 +154,6 @@ func (o *FindOrCreatePersonParams) bindOrcid(rawData []string, hasKey bool, form
 	}
 
 	o.Orcid = &raw
-
-	return nil
-}
-
-// bindOrganization binds and validates parameter Organization from query.
-func (o *FindOrCreatePersonParams) bindOrganization(rawData []string, hasKey bool, formats strfmt.Registry) error {
-	var raw string
-	if len(rawData) > 0 {
-		raw = rawData[len(rawData)-1]
-	}
-
-	// Required: false
-	// AllowEmptyValue: false
-	if raw == "" { // empty values pass all other validations
-		return nil
-	}
-
-	o.Organization = &raw
 
 	return nil
 }

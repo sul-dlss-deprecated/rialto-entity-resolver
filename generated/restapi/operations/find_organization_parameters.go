@@ -16,23 +16,27 @@ import (
 	strfmt "github.com/go-openapi/strfmt"
 )
 
-// NewFindOrCreateTopicParams creates a new FindOrCreateTopicParams object
+// NewFindOrganizationParams creates a new FindOrganizationParams object
 // no default values defined in spec.
-func NewFindOrCreateTopicParams() FindOrCreateTopicParams {
+func NewFindOrganizationParams() FindOrganizationParams {
 
-	return FindOrCreateTopicParams{}
+	return FindOrganizationParams{}
 }
 
-// FindOrCreateTopicParams contains all the bound params for the find or create topic operation
+// FindOrganizationParams contains all the bound params for the find organization operation
 // typically these are obtained from a http.Request
 //
-// swagger:parameters FindOrCreateTopic
-type FindOrCreateTopicParams struct {
+// swagger:parameters FindOrganization
+type FindOrganizationParams struct {
 
 	// HTTP Request Object
 	HTTPRequest *http.Request `json:"-"`
 
-	/*Name of the topic
+	/*The country that this organization is in.
+	  In: query
+	*/
+	Country *string
+	/*Name of the organization
 	  Required: true
 	  In: query
 	*/
@@ -42,13 +46,18 @@ type FindOrCreateTopicParams struct {
 // BindRequest both binds and validates a request, it assumes that complex things implement a Validatable(strfmt.Registry) error interface
 // for simple values it will use straight method calls.
 //
-// To ensure default values, the struct must have been initialized with NewFindOrCreateTopicParams() beforehand.
-func (o *FindOrCreateTopicParams) BindRequest(r *http.Request, route *middleware.MatchedRoute) error {
+// To ensure default values, the struct must have been initialized with NewFindOrganizationParams() beforehand.
+func (o *FindOrganizationParams) BindRequest(r *http.Request, route *middleware.MatchedRoute) error {
 	var res []error
 
 	o.HTTPRequest = r
 
 	qs := runtime.Values(r.URL.Query())
+
+	qCountry, qhkCountry, _ := qs.GetOK("country")
+	if err := o.bindCountry(qCountry, qhkCountry, route.Formats); err != nil {
+		res = append(res, err)
+	}
 
 	qName, qhkName, _ := qs.GetOK("name")
 	if err := o.bindName(qName, qhkName, route.Formats); err != nil {
@@ -61,8 +70,26 @@ func (o *FindOrCreateTopicParams) BindRequest(r *http.Request, route *middleware
 	return nil
 }
 
+// bindCountry binds and validates parameter Country from query.
+func (o *FindOrganizationParams) bindCountry(rawData []string, hasKey bool, formats strfmt.Registry) error {
+	var raw string
+	if len(rawData) > 0 {
+		raw = rawData[len(rawData)-1]
+	}
+
+	// Required: false
+	// AllowEmptyValue: false
+	if raw == "" { // empty values pass all other validations
+		return nil
+	}
+
+	o.Country = &raw
+
+	return nil
+}
+
 // bindName binds and validates parameter Name from query.
-func (o *FindOrCreateTopicParams) bindName(rawData []string, hasKey bool, formats strfmt.Registry) error {
+func (o *FindOrganizationParams) bindName(rawData []string, hasKey bool, formats strfmt.Registry) error {
 	if !hasKey {
 		return errors.Required("name", "query")
 	}

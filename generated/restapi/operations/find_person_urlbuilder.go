@@ -11,9 +11,12 @@ import (
 	golangswaggerpaths "path"
 )
 
-// FindOrCreateTopicURL generates an URL for the find or create topic operation
-type FindOrCreateTopicURL struct {
-	Name string
+// FindPersonURL generates an URL for the find person operation
+type FindPersonURL struct {
+	FirstName *string
+	FullName  *string
+	LastName  *string
+	Orcid     *string
 
 	_basePath string
 	// avoid unkeyed usage
@@ -23,7 +26,7 @@ type FindOrCreateTopicURL struct {
 // WithBasePath sets the base path for this url builder, only required when it's different from the
 // base path specified in the swagger spec.
 // When the value of the base path is an empty string
-func (o *FindOrCreateTopicURL) WithBasePath(bp string) *FindOrCreateTopicURL {
+func (o *FindPersonURL) WithBasePath(bp string) *FindPersonURL {
 	o.SetBasePath(bp)
 	return o
 }
@@ -31,24 +34,51 @@ func (o *FindOrCreateTopicURL) WithBasePath(bp string) *FindOrCreateTopicURL {
 // SetBasePath sets the base path for this url builder, only required when it's different from the
 // base path specified in the swagger spec.
 // When the value of the base path is an empty string
-func (o *FindOrCreateTopicURL) SetBasePath(bp string) {
+func (o *FindPersonURL) SetBasePath(bp string) {
 	o._basePath = bp
 }
 
 // Build a url path and query string
-func (o *FindOrCreateTopicURL) Build() (*url.URL, error) {
+func (o *FindPersonURL) Build() (*url.URL, error) {
 	var result url.URL
 
-	var _path = "/topic"
+	var _path = "/person"
 
 	_basePath := o._basePath
 	result.Path = golangswaggerpaths.Join(_basePath, _path)
 
 	qs := make(url.Values)
 
-	name := o.Name
-	if name != "" {
-		qs.Set("name", name)
+	var firstName string
+	if o.FirstName != nil {
+		firstName = *o.FirstName
+	}
+	if firstName != "" {
+		qs.Set("first_name", firstName)
+	}
+
+	var fullName string
+	if o.FullName != nil {
+		fullName = *o.FullName
+	}
+	if fullName != "" {
+		qs.Set("full_name", fullName)
+	}
+
+	var lastName string
+	if o.LastName != nil {
+		lastName = *o.LastName
+	}
+	if lastName != "" {
+		qs.Set("last_name", lastName)
+	}
+
+	var orcid string
+	if o.Orcid != nil {
+		orcid = *o.Orcid
+	}
+	if orcid != "" {
+		qs.Set("orcid", orcid)
 	}
 
 	result.RawQuery = qs.Encode()
@@ -57,7 +87,7 @@ func (o *FindOrCreateTopicURL) Build() (*url.URL, error) {
 }
 
 // Must is a helper function to panic when the url builder returns an error
-func (o *FindOrCreateTopicURL) Must(u *url.URL, err error) *url.URL {
+func (o *FindPersonURL) Must(u *url.URL, err error) *url.URL {
 	if err != nil {
 		panic(err)
 	}
@@ -68,17 +98,17 @@ func (o *FindOrCreateTopicURL) Must(u *url.URL, err error) *url.URL {
 }
 
 // String returns the string representation of the path with query string
-func (o *FindOrCreateTopicURL) String() string {
+func (o *FindPersonURL) String() string {
 	return o.Must(o.Build()).String()
 }
 
 // BuildFull builds a full url with scheme, host, path and query string
-func (o *FindOrCreateTopicURL) BuildFull(scheme, host string) (*url.URL, error) {
+func (o *FindPersonURL) BuildFull(scheme, host string) (*url.URL, error) {
 	if scheme == "" {
-		return nil, errors.New("scheme is required for a full url on FindOrCreateTopicURL")
+		return nil, errors.New("scheme is required for a full url on FindPersonURL")
 	}
 	if host == "" {
-		return nil, errors.New("host is required for a full url on FindOrCreateTopicURL")
+		return nil, errors.New("host is required for a full url on FindPersonURL")
 	}
 
 	base, err := o.Build()
@@ -92,6 +122,6 @@ func (o *FindOrCreateTopicURL) BuildFull(scheme, host string) (*url.URL, error) 
 }
 
 // StringFull returns the string representation of a complete url
-func (o *FindOrCreateTopicURL) StringFull(scheme, host string) string {
+func (o *FindPersonURL) StringFull(scheme, host string) string {
 	return o.Must(o.BuildFull(scheme, host)).String()
 }

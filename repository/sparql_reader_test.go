@@ -19,10 +19,6 @@ func (f *MockedRepo) Query(q string) (*sparql.Results, error) {
 	return args.Get(0).(*sparql.Results), args.Error(1)
 }
 
-func (f *MockedRepo) Update(q string) error {
-	return nil
-}
-
 func TestQueryByTypePredicateAndObject(t *testing.T) {
 	fakeRepo := new(MockedRepo)
 

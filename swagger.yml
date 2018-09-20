@@ -21,13 +21,18 @@ paths:
           description: Name of the topic
       security:
         - key: []
-      operationId: FindOrCreateTopic
+      operationId: FindTopic
       responses:
         200:
           description: returns a URI for the topic in RIALTO
           schema:
             type: string
             description: contains the actual URI
+        404:
+          description: Topic not found
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+
   /organization:
     get:
       produces:
@@ -45,13 +50,17 @@ paths:
           description: The country that this organization is in.
       security:
         - key: []
-      operationId: FindOrCreateOrganization
+      operationId: FindOrganization
       responses:
         200:
           description: returns a URI for the organization in Rialto
           schema:
             type: string
             description: contains the actual URI
+        404:
+          description: Organization not found
+          schema:
+            $ref: "#/definitions/ErrorResponse"
   /person:
     get:
       produces:
@@ -77,25 +86,19 @@ paths:
           type: string
           in: query
           description: ORCID of the person
-        - name: country
-          required: false
-          type: string
-          in: query
-          description: The country that this person's affiated organization is in.
-        - name: organization
-          required: false
-          type: string
-          in: query
-          description: The name of the organization this person is affiliated with.
       security:
         - key: []
-      operationId: findOrCreatePerson
+      operationId: findPerson
       responses:
         200:
           description: returns a URI for the person in Rialto
           schema:
             type: string
             description: contains the actual URI
+        404:
+          description: Person not found
+          schema:
+            $ref: "#/definitions/ErrorResponse"
   /healthcheck:
     get:
       produces:
@@ -119,3 +122,25 @@ definitions:
         description: "The status of the service"
     example:
       status: "OK"
+  ErrorResponse:
+    type: object
+    properties:
+      errors:
+        type: array
+        items:
+          $ref: "#/definitions/Error"
+  Error:
+    type: object
+    properties:
+      title:
+        type: string
+        description: a short, human-readable summary of the problem that SHOULD NOT change from occurrence to occurrence of the problem.
+        example: Invalid Attribute
+      detail:
+        type: string
+        description: a human-readable explanation specific to this occurrence of the problem.
+        example: Title must contain at least three characters.
+      status:
+        type: string
+        description:  the HTTP status code applicable to this problem, expressed as a string value.
+        example: 404

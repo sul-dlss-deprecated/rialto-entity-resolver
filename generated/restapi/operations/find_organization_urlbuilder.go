@@ -11,14 +11,10 @@ import (
 	golangswaggerpaths "path"
 )
 
-// FindOrCreatePersonURL generates an URL for the find or create person operation
-type FindOrCreatePersonURL struct {
-	Country      *string
-	FirstName    *string
-	FullName     *string
-	LastName     *string
-	Orcid        *string
-	Organization *string
+// FindOrganizationURL generates an URL for the find organization operation
+type FindOrganizationURL struct {
+	Country *string
+	Name    string
 
 	_basePath string
 	// avoid unkeyed usage
@@ -28,7 +24,7 @@ type FindOrCreatePersonURL struct {
 // WithBasePath sets the base path for this url builder, only required when it's different from the
 // base path specified in the swagger spec.
 // When the value of the base path is an empty string
-func (o *FindOrCreatePersonURL) WithBasePath(bp string) *FindOrCreatePersonURL {
+func (o *FindOrganizationURL) WithBasePath(bp string) *FindOrganizationURL {
 	o.SetBasePath(bp)
 	return o
 }
@@ -36,15 +32,15 @@ func (o *FindOrCreatePersonURL) WithBasePath(bp string) *FindOrCreatePersonURL {
 // SetBasePath sets the base path for this url builder, only required when it's different from the
 // base path specified in the swagger spec.
 // When the value of the base path is an empty string
-func (o *FindOrCreatePersonURL) SetBasePath(bp string) {
+func (o *FindOrganizationURL) SetBasePath(bp string) {
 	o._basePath = bp
 }
 
 // Build a url path and query string
-func (o *FindOrCreatePersonURL) Build() (*url.URL, error) {
+func (o *FindOrganizationURL) Build() (*url.URL, error) {
 	var result url.URL
 
-	var _path = "/person"
+	var _path = "/organization"
 
 	_basePath := o._basePath
 	result.Path = golangswaggerpaths.Join(_basePath, _path)
@@ -59,44 +55,9 @@ func (o *FindOrCreatePersonURL) Build() (*url.URL, error) {
 		qs.Set("country", country)
 	}
 
-	var firstName string
-	if o.FirstName != nil {
-		firstName = *o.FirstName
-	}
-	if firstName != "" {
-		qs.Set("first_name", firstName)
-	}
-
-	var fullName string
-	if o.FullName != nil {
-		fullName = *o.FullName
-	}
-	if fullName != "" {
-		qs.Set("full_name", fullName)
-	}
-
-	var lastName string
-	if o.LastName != nil {
-		lastName = *o.LastName
-	}
-	if lastName != "" {
-		qs.Set("last_name", lastName)
-	}
-
-	var orcid string
-	if o.Orcid != nil {
-		orcid = *o.Orcid
-	}
-	if orcid != "" {
-		qs.Set("orcid", orcid)
-	}
-
-	var organization string
-	if o.Organization != nil {
-		organization = *o.Organization
-	}
-	if organization != "" {
-		qs.Set("organization", organization)
+	name := o.Name
+	if name != "" {
+		qs.Set("name", name)
 	}
 
 	result.RawQuery = qs.Encode()
@@ -105,7 +66,7 @@ func (o *FindOrCreatePersonURL) Build() (*url.URL, error) {
 }
 
 // Must is a helper function to panic when the url builder returns an error
-func (o *FindOrCreatePersonURL) Must(u *url.URL, err error) *url.URL {
+func (o *FindOrganizationURL) Must(u *url.URL, err error) *url.URL {
 	if err != nil {
 		panic(err)
 	}
@@ -116,17 +77,17 @@ func (o *FindOrCreatePersonURL) Must(u *url.URL, err error) *url.URL {
 }
 
 // String returns the string representation of the path with query string
-func (o *FindOrCreatePersonURL) String() string {
+func (o *FindOrganizationURL) String() string {
 	return o.Must(o.Build()).String()
 }
 
 // BuildFull builds a full url with scheme, host, path and query string
-func (o *FindOrCreatePersonURL) BuildFull(scheme, host string) (*url.URL, error) {
+func (o *FindOrganizationURL) BuildFull(scheme, host string) (*url.URL, error) {
 	if scheme == "" {
-		return nil, errors.New("scheme is required for a full url on FindOrCreatePersonURL")
+		return nil, errors.New("scheme is required for a full url on FindOrganizationURL")
 	}
 	if host == "" {
-		return nil, errors.New("host is required for a full url on FindOrCreatePersonURL")
+		return nil, errors.New("host is required for a full url on FindOrganizationURL")
 	}
 
 	base, err := o.Build()
@@ -140,6 +101,6 @@ func (o *FindOrCreatePersonURL) BuildFull(scheme, host string) (*url.URL, error)
 }
 
 // StringFull returns the string representation of a complete url
-func (o *FindOrCreatePersonURL) StringFull(scheme, host string) string {
+func (o *FindOrganizationURL) StringFull(scheme, host string) string {
 	return o.Must(o.BuildFull(scheme, host)).String()
 }

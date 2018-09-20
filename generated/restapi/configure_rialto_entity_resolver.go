@@ -45,14 +45,14 @@ func configureAPI(api *operations.RialtoEntityResolverAPI) http.Handler {
 	//
 	// Example:
 	// api.APIAuthorizer = security.Authorized()
-	api.FindOrCreateOrganizationHandler = operations.FindOrCreateOrganizationHandlerFunc(func(params operations.FindOrCreateOrganizationParams, principal interface{}) middleware.Responder {
-		return middleware.NotImplemented("operation .FindOrCreateOrganization has not yet been implemented")
+	api.FindOrganizationHandler = operations.FindOrganizationHandlerFunc(func(params operations.FindOrganizationParams, principal interface{}) middleware.Responder {
+		return middleware.NotImplemented("operation .FindOrganization has not yet been implemented")
 	})
-	api.FindOrCreateTopicHandler = operations.FindOrCreateTopicHandlerFunc(func(params operations.FindOrCreateTopicParams, principal interface{}) middleware.Responder {
-		return middleware.NotImplemented("operation .FindOrCreateTopic has not yet been implemented")
+	api.FindTopicHandler = operations.FindTopicHandlerFunc(func(params operations.FindTopicParams, principal interface{}) middleware.Responder {
+		return middleware.NotImplemented("operation .FindTopic has not yet been implemented")
 	})
-	api.FindOrCreatePersonHandler = operations.FindOrCreatePersonHandlerFunc(func(params operations.FindOrCreatePersonParams, principal interface{}) middleware.Responder {
-		return middleware.NotImplemented("operation .FindOrCreatePerson has not yet been implemented")
+	api.FindPersonHandler = operations.FindPersonHandlerFunc(func(params operations.FindPersonParams, principal interface{}) middleware.Responder {
+		return middleware.NotImplemented("operation .FindPerson has not yet been implemented")
 	})
 	api.HealthCheckHandler = operations.HealthCheckHandlerFunc(func(params operations.HealthCheckParams) middleware.Responder {
 		return middleware.NotImplemented("operation .HealthCheck has not yet been implemented")

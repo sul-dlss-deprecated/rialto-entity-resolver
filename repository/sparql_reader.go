@@ -3,8 +3,6 @@ package repository
 import (
 	"fmt"
 	"log"
-	"os"
-	"strings"
 	"time"
 
 	"github.com/knakk/sparql"
@@ -13,14 +11,12 @@ import (
 // Reader reads from the data store
 type Reader interface {
 	QueryByTypePredicateAndObject(entityType string, predcate string, object string) (*string, error)
-	Insert(triples []string) error
 }
 
 // SPARQLRepository is an interface we are making on the sparql library we are using,
 // so that we can mock it in tests.
 type SPARQLRepository interface {
 	Query(q string) (*sparql.Results, error)
-	Update(q string) error
 }
 
 // SparqlReader represents the functions we do on the triplestore
@@ -58,18 +54,4 @@ func (r *SparqlReader) QueryByTypePredicateAndObject(entityType string, predicat
 
 	id := results.Solutions()[0]["id"].String()
 	return &id, nil
-}
-
-// Insert does a SPARQL update with the given triples
-func (r *SparqlReader) Insert(triples []string) error {
-	query := fmt.Sprintf(`INSERT DATA {
-				%s
-			}`, strings.Join(triples, ".\n"))
-	err := r.repo.Update(query)
-	log.Println("Inserted data")
-	return err
-}
-
-func (r *SparqlReader) endpoint() string {
-	return os.Getenv("SPARQL_ENDPOINT")
 }
