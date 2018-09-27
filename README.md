@@ -13,10 +13,20 @@ swagger generate server -t generated --exclude-main
 
 ## Run Server
 
-**NOTE**: the example value for `SPARQL_ENDPOINT` below assumes you're already running Blazegraph locally on port 9999 (default). To spin up Blazegraph as a local SPARQL endpoint, follow the [Blazegraph quick start](https://wiki.blazegraph.com/wiki/index.php/Quick_Start).
+### Blazegraph
+
+For local development, you'll need to install and run Blazegraph locally. To spin up Blazegraph as a local SPARQL endpoint, follow the [Blazegraph quick start](https://wiki.blazegraph.com/wiki/index.php/Quick_Start). It should be as simple as
 
 ```
-API_KEY=abc123 SPARQL_ENDPOINT=http://localhost:9999/blazegraph/namespace/kb/sparql go run cmd/server/main.go --port 3001
+java -server -Xmx4g -jar blazegraph.jar
+```
+
+Upon starting, Blazegraph should output some startup information to the console. You'll need to capture the `serviceURL` for use with RIALTO Entity Resolver, as referenced below. The default Blazegraph port, included in the `serviceURL`, is 9999.
+
+### Running a local (non-containerized) server
+
+```
+API_KEY=abc123 SPARQL_ENDPOINT=<serviceURL>/blazegraph/namespace/kb/sparql go run cmd/server/main.go --port 3001
 ```
 
 If this command bombs out, you may need to run `dep ensure` first to ensure you've got all the resolver's dependencies in place.
@@ -41,7 +51,7 @@ docker build -t suldlss/rialto-entity-resolver:latest .
 
 ```
 docker run -p 3000:3000 \
--e SPARQL_ENDPOINT=http://10.35.38.143:9999/blazegraph/namespace/kb/sparql \
+-e SPARQL_ENDPOINT=<serviceURL>/blazegraph/namespace/kb/sparql \
 -e API_KEY=<key> \
 suldlss/rialto-entity-resolver:latest
 ```
