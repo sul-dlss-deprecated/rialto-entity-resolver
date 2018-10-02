@@ -156,12 +156,6 @@
   version = "v1.0.0"
 
 [[projects]]
-  name = "github.com/satori/go.uuid"
-  packages = ["."]
-  revision = "f58768cc1a7a7e77a3bd49e98cdd21419399b6a3"
-  version = "v1.2.0"
-
-[[projects]]
   name = "github.com/stretchr/objx"
   packages = ["."]
   revision = "477a77ecc69700c7cdeb1fa9e129548e1c1c393c"
@@ -226,6 +220,6 @@
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "e2a3dd3b80eddd50c57cdaaf329c6c4b4426bf8766c98d7445ae3b7b857abf55"
+  inputs-digest = "54d22cfdab4847ac790ed4cec5176c472402f8a66c75b93e7a870b8b32190e90"
   solver-name = "gps-cdcl"
   solver-version = 1
