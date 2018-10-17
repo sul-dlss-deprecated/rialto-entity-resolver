@@ -30,7 +30,7 @@ func createServer() *restapi.Server {
 
 	// Convert the ENV string to a number
 	port, err := strconv.Atoi(portFlag)
-	if err == nil {
+	if err != nil {
 		port = 3000
 	}
 
