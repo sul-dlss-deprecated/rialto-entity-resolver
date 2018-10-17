@@ -10,7 +10,7 @@ import (
 
 // Reader reads from the data store
 type Reader interface {
-	QueryByTypePredicateAndObject(entityType string, predcate string, object string) (*string, error)
+	QueryByTypePredicateAndObject(entityType string, predicate string, object string) (*string, error)
 }
 
 // SPARQLRepository is an interface we are making on the sparql library we are using,
