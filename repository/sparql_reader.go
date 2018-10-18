@@ -42,16 +42,18 @@ func (r *SparqlReader) QueryByTypePredicateAndObject(entityType string, predicat
 				?id a <%s> .
 				?id <%s> "%s" .
 			}`, entityType, predicate, object)
-	log.Printf("[SPARQL] %s", query)
 	results, err := r.repo.Query(query)
 	if err != nil {
+		log.Printf("[SPARQL] %s returned error: %v", query, err)
 		return nil, err
 	}
 
 	if len(results.Solutions()) == 0 {
+		log.Printf("[SPARQL] %s returned no results", query)
 		return nil, nil
 	}
 
 	id := results.Solutions()[0]["id"].String()
+	log.Printf("[SPARQL] %s returned %s from %d results", query, id, len(results.Solutions()))
 	return &id, nil
 }
