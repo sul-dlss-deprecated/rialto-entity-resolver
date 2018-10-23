@@ -17,13 +17,13 @@ type Service struct {
 	reader Reader
 }
 
-const vcardFn = "http://www.w3.org/2006/vcard/ns#fn"
 const subject = "http://purl.org/dc/terms/subject"
 const personType = "http://xmlns.com/foaf/0.1/Person"
 const organizationType = "http://xmlns.com/foaf/0.1/Organization"
 const topicType = "http://www.w3.org/2004/02/skos/core#Concept"
 const orcidPredicate = "http://vivoweb.org/ontology/core#orcidId"
 const prefLabel = "http://www.w3.org/2004/02/skos/core#prefLabel"
+const altLabel = "http://www.w3.org/2004/02/skos/core#altLabel"
 
 // NewService creates a new Service instance
 func NewService(reader Reader) Repository {
@@ -48,7 +48,7 @@ func (m *Service) QueryForPersonByOrcid(orcid string) (*string, error) {
 func (m *Service) QueryForPersonByName(firstName string, lastName string) (*string, error) {
 	uri, err := m.reader.QueryByTypePredicateAndObject(
 		personType,
-		vcardFn,
+		altLabel,
 		fmt.Sprintf("%s, %s", lastName, firstName))
 
 	if err != nil {
