@@ -31,6 +31,16 @@ func (d *findPerson) Handle(params operations.FindPersonParams, principal interf
 		}
 	}
 
+	if params.Sunetid != nil {
+		uri, err := d.registry.Repository.QueryForPersonBySunetid(*params.Sunetid)
+		if err != nil {
+			panic(err)
+		}
+		if uri != nil {
+			return operations.NewFindPersonOK().WithPayload(*uri)
+		}
+	}
+
 	if params.FirstName != nil && params.LastName != nil {
 		uri, err := d.registry.Repository.QueryForPersonByName(*params.FirstName, *params.LastName)
 		if err != nil {

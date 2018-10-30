@@ -124,6 +124,12 @@ func init() {
             "description": "ORCID of the person",
             "name": "orcid",
             "in": "query"
+          },
+          {
+            "type": "string",
+            "description": "SUNet ID of the person",
+            "name": "sunetid",
+            "in": "query"
           }
         ],
         "responses": {
@@ -340,6 +346,12 @@ func init() {
             "type": "string",
             "description": "ORCID of the person",
             "name": "orcid",
+            "in": "query"
+          },
+          {
+            "type": "string",
+            "description": "SUNet ID of the person",
+            "name": "sunetid",
             "in": "query"
           }
         ],

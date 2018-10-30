@@ -47,6 +47,10 @@ type FindPersonParams struct {
 	  In: query
 	*/
 	Orcid *string
+	/*SUNet ID of the person
+	  In: query
+	*/
+	Sunetid *string
 }
 
 // BindRequest both binds and validates a request, it assumes that complex things implement a Validatable(strfmt.Registry) error interface
@@ -77,6 +81,11 @@ func (o *FindPersonParams) BindRequest(r *http.Request, route *middleware.Matche
 
 	qOrcid, qhkOrcid, _ := qs.GetOK("orcid")
 	if err := o.bindOrcid(qOrcid, qhkOrcid, route.Formats); err != nil {
+		res = append(res, err)
+	}
+
+	qSunetid, qhkSunetid, _ := qs.GetOK("sunetid")
+	if err := o.bindSunetid(qSunetid, qhkSunetid, route.Formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -154,6 +163,24 @@ func (o *FindPersonParams) bindOrcid(rawData []string, hasKey bool, formats strf
 	}
 
 	o.Orcid = &raw
+
+	return nil
+}
+
+// bindSunetid binds and validates parameter Sunetid from query.
+func (o *FindPersonParams) bindSunetid(rawData []string, hasKey bool, formats strfmt.Registry) error {
+	var raw string
+	if len(rawData) > 0 {
+		raw = rawData[len(rawData)-1]
+	}
+
+	// Required: false
+	// AllowEmptyValue: false
+	if raw == "" { // empty values pass all other validations
+		return nil
+	}
+
+	o.Sunetid = &raw
 
 	return nil
 }

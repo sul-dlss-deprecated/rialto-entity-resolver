@@ -86,6 +86,11 @@ paths:
           type: string
           in: query
           description: ORCID of the person
+        - name: sunetid
+          required: false
+          type: string
+          in: query
+          description: SUNet ID of the person
       security:
         - key: []
       operationId: findPerson

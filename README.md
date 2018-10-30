@@ -36,7 +36,7 @@ If this command bombs out, you may need to run `dep ensure` first to ensure you'
 Make sure to pass in the API key specified in the `API_KEY` environment variable when the server was started.
 
 ```
-curl -H "X-API-Key: abc123" "http://localhost:3001/person?last_name=Giarlo&first_name=Mike&orcid=0000-0002-2100-6108"
+curl -H "X-API-Key: abc123" "http://localhost:3001/person?last_name=Giarlo&first_name=Mike&orcid=0000-0002-2100-6108&sunetid=mjgiarlo"
 ```
 
 ## Docker
