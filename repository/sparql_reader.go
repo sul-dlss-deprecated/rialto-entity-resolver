@@ -11,6 +11,7 @@ import (
 // Reader reads from the data store
 type Reader interface {
 	QueryByTypePredicateAndObject(entityType string, predicate string, object string) (*string, error)
+	QueryByEntityTypeIdentifierTypeAndObject(entityType string, identifierType string, object string) (*string, error)
 }
 
 // SPARQLRepository is an interface we are making on the sparql library we are using,
@@ -33,6 +34,29 @@ func NewSparqlReader(url string) *SparqlReader {
 		log.Fatal(err)
 	}
 	return &SparqlReader{repo: repo}
+}
+
+// QueryByEntityTypeIdentifierTypeAndObject issues the query for the provided type with the given identifier type and object value
+func (r *SparqlReader) QueryByEntityTypeIdentifierTypeAndObject(entityType string, identifierType string, object string) (*string, error) {
+	query := fmt.Sprintf(`SELECT ?id
+			WHERE {
+				?id a <%s> .
+				?id <http://purl.org/dc/terms/identifier> "%s"^^<%s> .
+			}`, entityType, object, identifierType)
+	results, err := r.repo.Query(query)
+	if err != nil {
+		log.Printf("[SPARQL] %s returned error: %v", query, err)
+		return nil, err
+	}
+
+	if len(results.Solutions()) == 0 {
+		log.Printf("[SPARQL] %s returned no results", query)
+		return nil, nil
+	}
+
+	id := results.Solutions()[0]["id"].String()
+	log.Printf("[SPARQL] %s returned %s from %d results", query, id, len(results.Solutions()))
+	return &id, nil
 }
 
 // QueryByTypePredicateAndObject issues the query for the provided type with the given predicate and object assertion

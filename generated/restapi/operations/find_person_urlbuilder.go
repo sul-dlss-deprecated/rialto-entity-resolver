@@ -17,6 +17,7 @@ type FindPersonURL struct {
 	FullName  *string
 	LastName  *string
 	Orcid     *string
+	Sunetid   *string
 
 	_basePath string
 	// avoid unkeyed usage
@@ -79,6 +80,14 @@ func (o *FindPersonURL) Build() (*url.URL, error) {
 	}
 	if orcid != "" {
 		qs.Set("orcid", orcid)
+	}
+
+	var sunetid string
+	if o.Sunetid != nil {
+		sunetid = *o.Sunetid
+	}
+	if sunetid != "" {
+		qs.Set("sunetid", sunetid)
 	}
 
 	result.RawQuery = qs.Encode()

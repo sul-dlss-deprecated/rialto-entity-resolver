@@ -6,6 +6,7 @@ import (
 
 // Repository is an interface that rialto-entity-resolver reads from as its source
 type Repository interface {
+	QueryForPersonBySunetid(sunetid string) (*string, error)
 	QueryForPersonByOrcid(orcid string) (*string, error)
 	QueryForPersonByName(firstName string, lastName string) (*string, error)
 	QueryForOrganizationByName(name string) (*string, error)
@@ -22,12 +23,27 @@ const personType = "http://xmlns.com/foaf/0.1/Person"
 const organizationType = "http://xmlns.com/foaf/0.1/Organization"
 const topicType = "http://www.w3.org/2004/02/skos/core#Concept"
 const orcidPredicate = "http://vivoweb.org/ontology/core#orcidId"
+const sunetidType = "http://sul.stanford.edu/rialto/context/identifiers/Sunetid"
 const prefLabel = "http://www.w3.org/2004/02/skos/core#prefLabel"
 const altLabel = "http://www.w3.org/2004/02/skos/core#altLabel"
 
 // NewService creates a new Service instance
 func NewService(reader Reader) Repository {
 	return &Service{reader: reader}
+}
+
+// QueryForPersonBySunetid returns the Person's URI that has the given SUNet ID
+func (m *Service) QueryForPersonBySunetid(sunetid string) (*string, error) {
+	uri, err := m.reader.QueryByEntityTypeIdentifierTypeAndObject(
+		personType,
+		sunetidType,
+		sunetid)
+
+	if err != nil {
+		return nil, err
+	}
+
+	return uri, nil
 }
 
 // QueryForPersonByOrcid returns the Person's URI that has the given OrcID
