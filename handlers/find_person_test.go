@@ -61,6 +61,15 @@ func (m *MockedRepo) QueryForTopicByName(name string) (*string, error) {
 	return nil, args.Error(1)
 }
 
+func (m *MockedRepo) QueryForGrantByIdentifier(identifier string) (*string, error) {
+	args := m.Called(identifier)
+	result := args.Get(0)
+	if result != nil {
+		return result.(*string), args.Error(1)
+	}
+	return nil, args.Error(1)
+}
+
 func TestLookupUserByName(t *testing.T) {
 	os.Setenv("API_KEY", "abcdefg")
 	r := gofight.New()

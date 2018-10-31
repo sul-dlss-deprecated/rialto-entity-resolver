@@ -11,6 +11,7 @@ type Repository interface {
 	QueryForPersonByName(firstName string, lastName string) (*string, error)
 	QueryForOrganizationByName(name string) (*string, error)
 	QueryForTopicByName(name string) (*string, error)
+	QueryForGrantByIdentifier(identifier string) (*string, error)
 }
 
 // Service is the Neptune implementation of the repository
@@ -18,14 +19,15 @@ type Service struct {
 	reader Reader
 }
 
-const subject = "http://purl.org/dc/terms/subject"
-const personType = "http://xmlns.com/foaf/0.1/Person"
-const organizationType = "http://xmlns.com/foaf/0.1/Organization"
-const topicType = "http://www.w3.org/2004/02/skos/core#Concept"
-const orcidPredicate = "http://vivoweb.org/ontology/core#orcidId"
-const sunetidType = "http://sul.stanford.edu/rialto/context/identifiers/Sunetid"
-const prefLabel = "http://www.w3.org/2004/02/skos/core#prefLabel"
 const altLabel = "http://www.w3.org/2004/02/skos/core#altLabel"
+const grantType = "http://vivoweb.org/ontology/core#Grant"
+const orcidPredicate = "http://vivoweb.org/ontology/core#orcidId"
+const organizationType = "http://xmlns.com/foaf/0.1/Organization"
+const personType = "http://xmlns.com/foaf/0.1/Person"
+const prefLabel = "http://www.w3.org/2004/02/skos/core#prefLabel"
+const subject = "http://purl.org/dc/terms/subject"
+const sunetidType = "http://sul.stanford.edu/rialto/context/identifiers/Sunetid"
+const topicType = "http://www.w3.org/2004/02/skos/core#Concept"
 
 // NewService creates a new Service instance
 func NewService(reader Reader) Repository {
@@ -94,6 +96,20 @@ func (m *Service) QueryForTopicByName(name string) (*string, error) {
 		topicType,
 		subject,
 		name)
+
+	if err != nil {
+		return nil, err
+	}
+
+	return uri, nil
+}
+
+// QueryForGrantByIdentifier returns the Grant's URI that has the given identifier
+func (m *Service) QueryForGrantByIdentifier(identifier string) (*string, error) {
+	uri, err := m.reader.QueryByTypePredicateAndObject(
+		grantType,
+		altLabel,
+		identifier)
 
 	if err != nil {
 		return nil, err
