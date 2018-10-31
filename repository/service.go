@@ -21,6 +21,7 @@ type Service struct {
 
 const altLabel = "http://www.w3.org/2004/02/skos/core#altLabel"
 const grantType = "http://vivoweb.org/ontology/core#Grant"
+const identifierPredicate = "http://purl.org/dc/terms/identifier"
 const orcidPredicate = "http://vivoweb.org/ontology/core#orcidId"
 const organizationType = "http://xmlns.com/foaf/0.1/Organization"
 const personType = "http://xmlns.com/foaf/0.1/Person"
@@ -108,7 +109,7 @@ func (m *Service) QueryForTopicByName(name string) (*string, error) {
 func (m *Service) QueryForGrantByIdentifier(identifier string) (*string, error) {
 	uri, err := m.reader.QueryByTypePredicateAndObject(
 		grantType,
-		altLabel,
+		identifierPredicate,
 		identifier)
 
 	if err != nil {
