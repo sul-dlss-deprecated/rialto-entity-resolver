@@ -32,7 +32,29 @@ paths:
           description: Topic not found
           schema:
             $ref: "#/definitions/ErrorResponse"
-
+  /grant:
+    get:
+      produces:
+        - text/plain
+      parameters:
+        - name: identifier
+          required: true
+          type: string
+          in: query
+          description: A grant identifier
+      security:
+        - key: []
+      operationId: FindGrant
+      responses:
+        200:
+          description: returns a URI for the grant in RIALTO
+          schema:
+            type: string
+            description: contains the actual URI
+        404:
+          description: Grant not found
+          schema:
+            $ref: "#/definitions/ErrorResponse"
   /organization:
     get:
       produces:

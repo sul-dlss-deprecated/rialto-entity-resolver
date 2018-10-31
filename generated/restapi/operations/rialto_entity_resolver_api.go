@@ -38,6 +38,9 @@ func NewRialtoEntityResolverAPI(spec *loads.Document) *RialtoEntityResolverAPI {
 		JSONConsumer:        runtime.JSONConsumer(),
 		JSONProducer:        runtime.JSONProducer(),
 		TxtProducer:         runtime.TextProducer(),
+		FindGrantHandler: FindGrantHandlerFunc(func(params FindGrantParams, principal interface{}) middleware.Responder {
+			return middleware.NotImplemented("operation FindGrant has not yet been implemented")
+		}),
 		FindOrganizationHandler: FindOrganizationHandlerFunc(func(params FindOrganizationParams, principal interface{}) middleware.Responder {
 			return middleware.NotImplemented("operation FindOrganization has not yet been implemented")
 		}),
@@ -98,6 +101,8 @@ type RialtoEntityResolverAPI struct {
 	// APIAuthorizer provides access control (ACL/RBAC/ABAC) by providing access to the request and authenticated principal
 	APIAuthorizer runtime.Authorizer
 
+	// FindGrantHandler sets the operation handler for the find grant operation
+	FindGrantHandler FindGrantHandler
 	// FindOrganizationHandler sets the operation handler for the find organization operation
 	FindOrganizationHandler FindOrganizationHandler
 	// FindTopicHandler sets the operation handler for the find topic operation
@@ -175,6 +180,10 @@ func (o *RialtoEntityResolverAPI) Validate() error {
 
 	if o.KeyAuth == nil {
 		unregistered = append(unregistered, "XAPIKeyAuth")
+	}
+
+	if o.FindGrantHandler == nil {
+		unregistered = append(unregistered, "FindGrantHandler")
 	}
 
 	if o.FindOrganizationHandler == nil {
@@ -303,6 +312,11 @@ func (o *RialtoEntityResolverAPI) initHandlerCache() {
 	if o.handlers == nil {
 		o.handlers = make(map[string]map[string]http.Handler)
 	}
+
+	if o.handlers["GET"] == nil {
+		o.handlers["GET"] = make(map[string]http.Handler)
+	}
+	o.handlers["GET"]["/grant"] = NewFindGrant(o.context, o.FindGrantHandler)
 
 	if o.handlers["GET"] == nil {
 		o.handlers["GET"] = make(map[string]http.Handler)
