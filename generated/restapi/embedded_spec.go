@@ -24,6 +24,43 @@ func init() {
     "version": "0.0.1"
   },
   "paths": {
+    "/grant": {
+      "get": {
+        "security": [
+          {
+            "key": []
+          }
+        ],
+        "produces": [
+          "text/plain"
+        ],
+        "operationId": "FindGrant",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "A grant identifier",
+            "name": "identifier",
+            "in": "query",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "returns a URI for the grant in RIALTO",
+            "schema": {
+              "description": "contains the actual URI",
+              "type": "string"
+            }
+          },
+          "404": {
+            "description": "Grant not found",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
     "/healthcheck": {
       "get": {
         "produces": [
@@ -247,6 +284,43 @@ func init() {
     "version": "0.0.1"
   },
   "paths": {
+    "/grant": {
+      "get": {
+        "security": [
+          {
+            "key": []
+          }
+        ],
+        "produces": [
+          "text/plain"
+        ],
+        "operationId": "FindGrant",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "A grant identifier",
+            "name": "identifier",
+            "in": "query",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "returns a URI for the grant in RIALTO",
+            "schema": {
+              "description": "contains the actual URI",
+              "type": "string"
+            }
+          },
+          "404": {
+            "description": "Grant not found",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
     "/healthcheck": {
       "get": {
         "produces": [

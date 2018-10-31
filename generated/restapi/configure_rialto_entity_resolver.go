@@ -45,6 +45,9 @@ func configureAPI(api *operations.RialtoEntityResolverAPI) http.Handler {
 	//
 	// Example:
 	// api.APIAuthorizer = security.Authorized()
+	api.FindGrantHandler = operations.FindGrantHandlerFunc(func(params operations.FindGrantParams, principal interface{}) middleware.Responder {
+		return middleware.NotImplemented("operation .FindGrant has not yet been implemented")
+	})
 	api.FindOrganizationHandler = operations.FindOrganizationHandlerFunc(func(params operations.FindOrganizationParams, principal interface{}) middleware.Responder {
 		return middleware.NotImplemented("operation .FindOrganization has not yet been implemented")
 	})
