@@ -7,7 +7,7 @@ import (
 
 	"github.com/appleboy/gofight"
 	"github.com/stretchr/testify/assert"
-	"github.com/sul-dlss-labs/rialto-entity-resolver/runtime"
+	"github.com/sul-dlss/rialto-entity-resolver/runtime"
 )
 
 func TestLookupGrantByIdentifier(t *testing.T) {

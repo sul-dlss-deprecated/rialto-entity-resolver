@@ -25,7 +25,7 @@ import (
 	flags "github.com/jessevdk/go-flags"
 	"golang.org/x/net/netutil"
 
-	"github.com/sul-dlss-labs/rialto-entity-resolver/generated/restapi/operations"
+	"github.com/sul-dlss/rialto-entity-resolver/generated/restapi/operations"
 )
 
 const (

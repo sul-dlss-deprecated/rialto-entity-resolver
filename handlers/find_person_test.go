@@ -8,7 +8,7 @@ import (
 	"github.com/appleboy/gofight"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/mock"
-	"github.com/sul-dlss-labs/rialto-entity-resolver/runtime"
+	"github.com/sul-dlss/rialto-entity-resolver/runtime"
 )
 
 // MockedRepo is a mocked object that implements the Repository interface

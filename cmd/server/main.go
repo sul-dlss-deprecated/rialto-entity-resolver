@@ -5,10 +5,10 @@ import (
 	"os"
 	"strconv"
 
-	"github.com/sul-dlss-labs/rialto-entity-resolver/generated/restapi"
-	"github.com/sul-dlss-labs/rialto-entity-resolver/handlers"
-	"github.com/sul-dlss-labs/rialto-entity-resolver/repository"
-	"github.com/sul-dlss-labs/rialto-entity-resolver/runtime"
+	"github.com/sul-dlss/rialto-entity-resolver/generated/restapi"
+	"github.com/sul-dlss/rialto-entity-resolver/handlers"
+	"github.com/sul-dlss/rialto-entity-resolver/repository"
+	"github.com/sul-dlss/rialto-entity-resolver/runtime"
 )
 
 func main() {

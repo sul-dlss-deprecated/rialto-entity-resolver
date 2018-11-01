@@ -4,9 +4,9 @@ import (
 	"log"
 
 	"github.com/go-openapi/runtime/middleware"
-	"github.com/sul-dlss-labs/rialto-entity-resolver/generated/models"
-	"github.com/sul-dlss-labs/rialto-entity-resolver/generated/restapi/operations"
-	"github.com/sul-dlss-labs/rialto-entity-resolver/runtime"
+	"github.com/sul-dlss/rialto-entity-resolver/generated/models"
+	"github.com/sul-dlss/rialto-entity-resolver/generated/restapi/operations"
+	"github.com/sul-dlss/rialto-entity-resolver/runtime"
 )
 
 // NewFindTopic will query Neptune for a topic record, or create a new one if no existing record can be found.
