@@ -6,9 +6,9 @@ import (
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/loads"
-	"github.com/sul-dlss-labs/rialto-entity-resolver/generated/restapi"
-	"github.com/sul-dlss-labs/rialto-entity-resolver/generated/restapi/operations"
-	"github.com/sul-dlss-labs/rialto-entity-resolver/runtime"
+	"github.com/sul-dlss/rialto-entity-resolver/generated/restapi"
+	"github.com/sul-dlss/rialto-entity-resolver/generated/restapi/operations"
+	"github.com/sul-dlss/rialto-entity-resolver/runtime"
 )
 
 // BuildAPI create new service API

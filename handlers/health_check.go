@@ -2,8 +2,8 @@ package handlers
 
 import (
 	"github.com/go-openapi/runtime/middleware"
-	"github.com/sul-dlss-labs/rialto-entity-resolver/generated/models"
-	"github.com/sul-dlss-labs/rialto-entity-resolver/generated/restapi/operations"
+	"github.com/sul-dlss/rialto-entity-resolver/generated/models"
+	"github.com/sul-dlss/rialto-entity-resolver/generated/restapi/operations"
 )
 
 // NewHealthCheck will return the service health

@@ -10,7 +10,7 @@ import (
 	runtime "github.com/go-openapi/runtime"
 	middleware "github.com/go-openapi/runtime/middleware"
 
-	"github.com/sul-dlss-labs/rialto-entity-resolver/generated/restapi/operations"
+	"github.com/sul-dlss/rialto-entity-resolver/generated/restapi/operations"
 )
 
 //go:generate swagger generate server --target ../generated --name  --spec ../swagger.yml --exclude-main

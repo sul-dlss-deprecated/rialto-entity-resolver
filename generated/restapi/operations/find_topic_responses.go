@@ -10,7 +10,7 @@ import (
 
 	"github.com/go-openapi/runtime"
 
-	models "github.com/sul-dlss-labs/rialto-entity-resolver/generated/models"
+	models "github.com/sul-dlss/rialto-entity-resolver/generated/models"
 )
 
 // FindTopicOKCode is the HTTP code returned for type FindTopicOK

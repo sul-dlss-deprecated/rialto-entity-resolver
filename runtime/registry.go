@@ -1,7 +1,7 @@
 package runtime
 
 import (
-	"github.com/sul-dlss-labs/rialto-entity-resolver/repository"
+	"github.com/sul-dlss/rialto-entity-resolver/repository"
 )
 
 // Registry is the object that holds all the external services
