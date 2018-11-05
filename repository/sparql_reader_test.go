@@ -64,3 +64,26 @@ func TestQueryByTypePredicateAndObject(t *testing.T) {
 	result, _ := reader.QueryByTypePredicateAndObject("http://xmlns.com/foaf/0.1/Person", "http://www.w3.org/2006/vcard/ns#fn", "Giarlo, Mike")
 	assert.Equal(t, *result, "http://sul.stanford.edu/rialto/agents/people/8de0ce5e-a2a4-4e61-974e-df6c213cf220")
 }
+
+func TestQueryByTypePredicateAndObjectEscaping(t *testing.T) {
+	fakeRepo := new(MockedRepo)
+
+	institutionJSON := strings.NewReader(`{
+	    "head": { "vars": [ "id" ] } ,
+	    "results": {
+	      "bindings": [
+	        {
+	          "id": { "type": "uri" , "value": "http://sul.stanford.edu/rialto/agents/people/8de0ce5e-a2a4-4e61-974e-df6c213cf220" }
+	        }
+	      ]
+	    }
+	  }`)
+	fakeRepo.On("Query", "SELECT ?id\n\t\t\tWHERE {\n\t\t\t\t?id a <http://xmlns.com/foaf/0.1/Person> .\n\t\t\t\t?id <http://www.w3.org/2006/vcard/ns#fn> \"Giarlo, Mike \\\"Mikey\\\"\" .\n\t\t\t}").
+		Return(sparql.ParseJSON(institutionJSON))
+
+	reader := &SparqlReader{
+		repo: fakeRepo,
+	}
+	result, _ := reader.QueryByTypePredicateAndObject("http://xmlns.com/foaf/0.1/Person", "http://www.w3.org/2006/vcard/ns#fn", "Giarlo, Mike \"Mikey\"")
+	assert.Equal(t, *result, "http://sul.stanford.edu/rialto/agents/people/8de0ce5e-a2a4-4e61-974e-df6c213cf220")
+}

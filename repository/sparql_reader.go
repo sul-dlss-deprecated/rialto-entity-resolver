@@ -3,6 +3,7 @@ package repository
 import (
 	"fmt"
 	"log"
+	"strings"
 	"time"
 
 	"github.com/knakk/sparql"
@@ -42,7 +43,7 @@ func (r *SparqlReader) QueryByEntityTypeIdentifierTypeAndObject(entityType strin
 			WHERE {
 				?id a <%s> .
 				?id <http://purl.org/dc/terms/identifier> "%s"^^<%s> .
-			}`, entityType, object, identifierType)
+			}`, entityType, r.escapeLiteral(object), identifierType)
 	results, err := r.repo.Query(query)
 	if err != nil {
 		log.Printf("[SPARQL] %s returned error: %v", query, err)
@@ -65,7 +66,7 @@ func (r *SparqlReader) QueryByTypePredicateAndObject(entityType string, predicat
 			WHERE {
 				?id a <%s> .
 				?id <%s> "%s" .
-			}`, entityType, predicate, object)
+			}`, entityType, predicate, r.escapeLiteral(object))
 	results, err := r.repo.Query(query)
 	if err != nil {
 		log.Printf("[SPARQL] %s returned error: %v", query, err)
@@ -80,4 +81,8 @@ func (r *SparqlReader) QueryByTypePredicateAndObject(entityType string, predicat
 	id := results.Solutions()[0]["id"].String()
 	log.Printf("[SPARQL] %s returned %s from %d results", query, id, len(results.Solutions()))
 	return &id, nil
+}
+
+func (r *SparqlReader) escapeLiteral(literal string) string {
+	return strings.Replace(literal, "\"", "\\\"", -1)
 }
