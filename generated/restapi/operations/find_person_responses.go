@@ -99,3 +99,47 @@ func (o *FindPersonNotFound) WriteResponse(rw http.ResponseWriter, producer runt
 		}
 	}
 }
+
+// FindPersonInternalServerErrorCode is the HTTP code returned for type FindPersonInternalServerError
+const FindPersonInternalServerErrorCode int = 500
+
+/*FindPersonInternalServerError Server error
+
+swagger:response findPersonInternalServerError
+*/
+type FindPersonInternalServerError struct {
+
+	/*
+	  In: Body
+	*/
+	Payload *models.ErrorResponse `json:"body,omitempty"`
+}
+
+// NewFindPersonInternalServerError creates FindPersonInternalServerError with default headers values
+func NewFindPersonInternalServerError() *FindPersonInternalServerError {
+
+	return &FindPersonInternalServerError{}
+}
+
+// WithPayload adds the payload to the find person internal server error response
+func (o *FindPersonInternalServerError) WithPayload(payload *models.ErrorResponse) *FindPersonInternalServerError {
+	o.Payload = payload
+	return o
+}
+
+// SetPayload sets the payload to the find person internal server error response
+func (o *FindPersonInternalServerError) SetPayload(payload *models.ErrorResponse) {
+	o.Payload = payload
+}
+
+// WriteResponse to the client
+func (o *FindPersonInternalServerError) WriteResponse(rw http.ResponseWriter, producer runtime.Producer) {
+
+	rw.WriteHeader(500)
+	if o.Payload != nil {
+		payload := o.Payload
+		if err := producer.Produce(rw, payload); err != nil {
+			panic(err) // let the recovery middleware deal with this
+		}
+	}
+}

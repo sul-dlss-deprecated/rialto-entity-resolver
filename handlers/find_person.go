@@ -1,6 +1,8 @@
 package handlers
 
 import (
+	"log"
+
 	"github.com/go-openapi/runtime/middleware"
 	"github.com/sul-dlss/rialto-entity-resolver/generated/models"
 	"github.com/sul-dlss/rialto-entity-resolver/generated/restapi/operations"
@@ -24,7 +26,7 @@ func (d *findPerson) Handle(params operations.FindPersonParams, principal interf
 	if params.Orcid != nil {
 		uri, err := d.registry.Repository.QueryForPersonByOrcid(*params.Orcid)
 		if err != nil {
-			panic(err)
+			return d.handleError(err)
 		}
 		if uri != nil {
 			return operations.NewFindPersonOK().WithPayload(*uri)
@@ -34,7 +36,7 @@ func (d *findPerson) Handle(params operations.FindPersonParams, principal interf
 	if params.Sunetid != nil {
 		uri, err := d.registry.Repository.QueryForPersonBySunetid(*params.Sunetid)
 		if err != nil {
-			panic(err)
+			return d.handleError(err)
 		}
 		if uri != nil {
 			return operations.NewFindPersonOK().WithPayload(*uri)
@@ -44,7 +46,7 @@ func (d *findPerson) Handle(params operations.FindPersonParams, principal interf
 	if params.FirstName != nil && params.LastName != nil {
 		uri, err := d.registry.Repository.QueryForPersonByName(*params.FirstName, *params.LastName)
 		if err != nil {
-			panic(err)
+			return d.handleError(err)
 		}
 		if uri != nil {
 			return operations.NewFindPersonOK().WithPayload(*uri)
@@ -59,4 +61,16 @@ func (d *findPerson) Handle(params operations.FindPersonParams, principal interf
 	errors := []*models.Error{problem}
 
 	return operations.NewFindPersonNotFound().WithPayload(&models.ErrorResponse{Errors: errors})
+}
+
+func (d *findPerson) handleError(err error) middleware.Responder {
+	log.Printf("%s", err)
+	problem := &models.Error{
+		Title:  "Server error",
+		Detail: err.Error(),
+		Status: "500",
+	}
+	errors := []*models.Error{problem}
+
+	return operations.NewFindPersonInternalServerError().WithPayload(&models.ErrorResponse{Errors: errors})
 }

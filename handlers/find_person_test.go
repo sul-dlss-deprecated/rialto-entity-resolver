@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"errors"
 	"net/http"
 	"os"
 	"testing"
@@ -97,12 +98,12 @@ func TestLookupUserBySunetid(t *testing.T) {
 	registry := &runtime.Registry{Repository: repo}
 	r.GET("/person?last_name=Collier&first_name=Aaron&sunetid=amcollie").
 		SetHeader(gofight.H{
-		"X-API-Key": "abcdefg",
-	}).
+			"X-API-Key": "abcdefg",
+		}).
 		Run(BuildAPI(registry).Serve(nil),
-		func(r gofight.HTTPResponse, rq gofight.HTTPRequest) {
-			assert.Equal(t, http.StatusOK, r.Code)
-		})
+			func(r gofight.HTTPResponse, rq gofight.HTTPRequest) {
+				assert.Equal(t, http.StatusOK, r.Code)
+			})
 }
 
 func TestLookupUserByOrcid(t *testing.T) {
@@ -139,5 +140,23 @@ func TestUserNotFound(t *testing.T) {
 		Run(BuildAPI(registry).Serve(nil),
 			func(r gofight.HTTPResponse, rq gofight.HTTPRequest) {
 				assert.Equal(t, http.StatusNotFound, r.Code)
+			})
+}
+
+func TestUserServerError(t *testing.T) {
+	r := gofight.New()
+	repo := new(MockedRepo)
+	repo.On("QueryForPersonByOrcid", "0000-0000-0000-0012").
+		Return(nil, nil)
+	repo.On("QueryForPersonByName", "Aaron", "Collier").
+		Return(nil, errors.New("Ooops"))
+	registry := &runtime.Registry{Repository: repo}
+	r.GET("/person?last_name=Collier&first_name=Aaron&orcid=0000-0000-0000-0012").
+		SetHeader(gofight.H{
+			"X-API-Key": "abcdefg",
+		}).
+		Run(BuildAPI(registry).Serve(nil),
+			func(r gofight.HTTPResponse, rq gofight.HTTPRequest) {
+				assert.Equal(t, http.StatusInternalServerError, r.Code)
 			})
 }

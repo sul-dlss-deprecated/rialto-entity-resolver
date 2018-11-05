@@ -99,3 +99,47 @@ func (o *FindGrantNotFound) WriteResponse(rw http.ResponseWriter, producer runti
 		}
 	}
 }
+
+// FindGrantInternalServerErrorCode is the HTTP code returned for type FindGrantInternalServerError
+const FindGrantInternalServerErrorCode int = 500
+
+/*FindGrantInternalServerError Server error
+
+swagger:response findGrantInternalServerError
+*/
+type FindGrantInternalServerError struct {
+
+	/*
+	  In: Body
+	*/
+	Payload *models.ErrorResponse `json:"body,omitempty"`
+}
+
+// NewFindGrantInternalServerError creates FindGrantInternalServerError with default headers values
+func NewFindGrantInternalServerError() *FindGrantInternalServerError {
+
+	return &FindGrantInternalServerError{}
+}
+
+// WithPayload adds the payload to the find grant internal server error response
+func (o *FindGrantInternalServerError) WithPayload(payload *models.ErrorResponse) *FindGrantInternalServerError {
+	o.Payload = payload
+	return o
+}
+
+// SetPayload sets the payload to the find grant internal server error response
+func (o *FindGrantInternalServerError) SetPayload(payload *models.ErrorResponse) {
+	o.Payload = payload
+}
+
+// WriteResponse to the client
+func (o *FindGrantInternalServerError) WriteResponse(rw http.ResponseWriter, producer runtime.Producer) {
+
+	rw.WriteHeader(500)
+	if o.Payload != nil {
+		payload := o.Payload
+		if err := producer.Produce(rw, payload); err != nil {
+			panic(err) // let the recovery middleware deal with this
+		}
+	}
+}

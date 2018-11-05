@@ -13,7 +13,7 @@ import (
 	"github.com/sul-dlss/rialto-entity-resolver/generated/restapi/operations"
 )
 
-//go:generate swagger generate server --target ../generated --name  --spec ../swagger.yml --exclude-main
+//go:generate swagger generate server --target ../generated --name RialtoEntityResolver --spec ../swagger.yml --exclude-main
 
 func configureFlags(api *operations.RialtoEntityResolverAPI) {
 	// api.CommandLineOptionsGroups = []swag.CommandLineOptionsGroup{ ... }

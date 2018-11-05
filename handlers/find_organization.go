@@ -26,8 +26,7 @@ func (d *findOrganization) Handle(params operations.FindOrganizationParams, prin
 	uri, err := d.registry.Repository.QueryForOrganizationByName(params.Name)
 
 	if err != nil {
-		log.Printf("%s", err)
-		panic(err)
+		return d.handleError(err)
 	}
 	if uri != nil {
 		return operations.NewFindOrganizationOK().WithPayload(*uri)
@@ -41,4 +40,16 @@ func (d *findOrganization) Handle(params operations.FindOrganizationParams, prin
 	errors := []*models.Error{problem}
 
 	return operations.NewFindOrganizationNotFound().WithPayload(&models.ErrorResponse{Errors: errors})
+}
+
+func (d *findOrganization) handleError(err error) middleware.Responder {
+	log.Printf("%s", err)
+	problem := &models.Error{
+		Title:  "Server error",
+		Detail: err.Error(),
+		Status: "500",
+	}
+	errors := []*models.Error{problem}
+
+	return operations.NewFindOrganizationInternalServerError().WithPayload(&models.ErrorResponse{Errors: errors})
 }

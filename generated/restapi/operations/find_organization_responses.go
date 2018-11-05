@@ -99,3 +99,47 @@ func (o *FindOrganizationNotFound) WriteResponse(rw http.ResponseWriter, produce
 		}
 	}
 }
+
+// FindOrganizationInternalServerErrorCode is the HTTP code returned for type FindOrganizationInternalServerError
+const FindOrganizationInternalServerErrorCode int = 500
+
+/*FindOrganizationInternalServerError Server error
+
+swagger:response findOrganizationInternalServerError
+*/
+type FindOrganizationInternalServerError struct {
+
+	/*
+	  In: Body
+	*/
+	Payload *models.ErrorResponse `json:"body,omitempty"`
+}
+
+// NewFindOrganizationInternalServerError creates FindOrganizationInternalServerError with default headers values
+func NewFindOrganizationInternalServerError() *FindOrganizationInternalServerError {
+
+	return &FindOrganizationInternalServerError{}
+}
+
+// WithPayload adds the payload to the find organization internal server error response
+func (o *FindOrganizationInternalServerError) WithPayload(payload *models.ErrorResponse) *FindOrganizationInternalServerError {
+	o.Payload = payload
+	return o
+}
+
+// SetPayload sets the payload to the find organization internal server error response
+func (o *FindOrganizationInternalServerError) SetPayload(payload *models.ErrorResponse) {
+	o.Payload = payload
+}
+
+// WriteResponse to the client
+func (o *FindOrganizationInternalServerError) WriteResponse(rw http.ResponseWriter, producer runtime.Producer) {
+
+	rw.WriteHeader(500)
+	if o.Payload != nil {
+		payload := o.Payload
+		if err := producer.Produce(rw, payload); err != nil {
+			panic(err) // let the recovery middleware deal with this
+		}
+	}
+}

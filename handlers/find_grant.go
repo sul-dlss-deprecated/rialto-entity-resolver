@@ -26,8 +26,7 @@ func (d *findGrant) Handle(params operations.FindGrantParams, principal interfac
 	uri, err := d.registry.Repository.QueryForGrantByIdentifier(params.Identifier)
 
 	if err != nil {
-		log.Printf("%s", err)
-		panic(err)
+		return d.handleError(err)
 	}
 	if uri != nil {
 		return operations.NewFindGrantOK().WithPayload(*uri)
@@ -41,4 +40,16 @@ func (d *findGrant) Handle(params operations.FindGrantParams, principal interfac
 	errors := []*models.Error{problem}
 
 	return operations.NewFindGrantNotFound().WithPayload(&models.ErrorResponse{Errors: errors})
+}
+
+func (d *findGrant) handleError(err error) middleware.Responder {
+	log.Printf("%s", err)
+	problem := &models.Error{
+		Title:  "Server error",
+		Detail: err.Error(),
+		Status: "500",
+	}
+	errors := []*models.Error{problem}
+
+	return operations.NewFindGrantInternalServerError().WithPayload(&models.ErrorResponse{Errors: errors})
 }

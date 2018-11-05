@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"errors"
 	"net/http"
 	"os"
 	"testing"
@@ -41,5 +42,21 @@ func TestTopicNotFound(t *testing.T) {
 		Run(BuildAPI(registry).Serve(nil),
 			func(r gofight.HTTPResponse, rq gofight.HTTPRequest) {
 				assert.Equal(t, http.StatusNotFound, r.Code)
+			})
+}
+
+func TestTopicServerError(t *testing.T) {
+	r := gofight.New()
+	repo := new(MockedRepo)
+	repo.On("QueryForTopicByName", "Computer Science").
+		Return(nil, errors.New("Ooops"))
+	registry := &runtime.Registry{Repository: repo}
+	r.GET("/topic?name=Computer+Science").
+		SetHeader(gofight.H{
+			"X-API-Key": "abcdefg",
+		}).
+		Run(BuildAPI(registry).Serve(nil),
+			func(r gofight.HTTPResponse, rq gofight.HTTPRequest) {
+				assert.Equal(t, http.StatusInternalServerError, r.Code)
 			})
 }

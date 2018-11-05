@@ -26,8 +26,7 @@ func (d *findTopic) Handle(params operations.FindTopicParams, principal interfac
 	uri, err := d.registry.Repository.QueryForTopicByName(params.Name)
 
 	if err != nil {
-		log.Printf("%s", err)
-		panic(err)
+		return d.handleError(err)
 	}
 	if uri != nil {
 		return operations.NewFindTopicOK().WithPayload(*uri)
@@ -41,4 +40,16 @@ func (d *findTopic) Handle(params operations.FindTopicParams, principal interfac
 	errors := []*models.Error{problem}
 
 	return operations.NewFindTopicNotFound().WithPayload(&models.ErrorResponse{Errors: errors})
+}
+
+func (d *findTopic) handleError(err error) middleware.Responder {
+	log.Printf("%s", err)
+	problem := &models.Error{
+		Title:  "Server error",
+		Detail: err.Error(),
+		Status: "500",
+	}
+	errors := []*models.Error{problem}
+
+	return operations.NewFindTopicInternalServerError().WithPayload(&models.ErrorResponse{Errors: errors})
 }

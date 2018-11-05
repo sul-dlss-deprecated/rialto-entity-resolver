@@ -4,7 +4,9 @@ Use this service if you want to resolve some properties about an entity to a kno
 
 ## Generate server
 
-**NOTE**: Only do this when you change `swagger.yml`!
+**NOTES**:
+* Only do this when you change `swagger.yml`!
+* To install swagger: `go get -u -v github.com/go-swagger/go-swagger/cmd/swagger`
 
 ```
 rm -r generated/*
@@ -60,4 +62,10 @@ suldlss/rialto-entity-resolver:latest
 
 ```
 docker push suldlss/rialto-entity-resolver:latest
+```
+
+## Testing
+
+```
+go test ./...
 ```
