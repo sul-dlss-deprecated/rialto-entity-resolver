@@ -280,6 +280,7 @@
   analyzer-version = 1
   input-imports = [
     "github.com/appleboy/gofight",
+    "github.com/docker/go-units",
     "github.com/go-openapi/errors",
     "github.com/go-openapi/loads",
     "github.com/go-openapi/runtime",

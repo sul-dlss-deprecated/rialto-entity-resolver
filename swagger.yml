@@ -32,6 +32,10 @@ paths:
           description: Topic not found
           schema:
             $ref: "#/definitions/ErrorResponse"
+        500:
+          description: Server error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
   /grant:
     get:
       produces:
@@ -53,6 +57,10 @@ paths:
             description: contains the actual URI
         404:
           description: Grant not found
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+        500:
+          description: Server error
           schema:
             $ref: "#/definitions/ErrorResponse"
   /organization:
@@ -81,6 +89,10 @@ paths:
             description: contains the actual URI
         404:
           description: Organization not found
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+        500:
+          description: Server error
           schema:
             $ref: "#/definitions/ErrorResponse"
   /person:
@@ -124,6 +136,10 @@ paths:
             description: contains the actual URI
         404:
           description: Person not found
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+        500:
+          description: Server error
           schema:
             $ref: "#/definitions/ErrorResponse"
   /healthcheck:

@@ -99,3 +99,47 @@ func (o *FindTopicNotFound) WriteResponse(rw http.ResponseWriter, producer runti
 		}
 	}
 }
+
+// FindTopicInternalServerErrorCode is the HTTP code returned for type FindTopicInternalServerError
+const FindTopicInternalServerErrorCode int = 500
+
+/*FindTopicInternalServerError Server error
+
+swagger:response findTopicInternalServerError
+*/
+type FindTopicInternalServerError struct {
+
+	/*
+	  In: Body
+	*/
+	Payload *models.ErrorResponse `json:"body,omitempty"`
+}
+
+// NewFindTopicInternalServerError creates FindTopicInternalServerError with default headers values
+func NewFindTopicInternalServerError() *FindTopicInternalServerError {
+
+	return &FindTopicInternalServerError{}
+}
+
+// WithPayload adds the payload to the find topic internal server error response
+func (o *FindTopicInternalServerError) WithPayload(payload *models.ErrorResponse) *FindTopicInternalServerError {
+	o.Payload = payload
+	return o
+}
+
+// SetPayload sets the payload to the find topic internal server error response
+func (o *FindTopicInternalServerError) SetPayload(payload *models.ErrorResponse) {
+	o.Payload = payload
+}
+
+// WriteResponse to the client
+func (o *FindTopicInternalServerError) WriteResponse(rw http.ResponseWriter, producer runtime.Producer) {
+
+	rw.WriteHeader(500)
+	if o.Payload != nil {
+		payload := o.Payload
+		if err := producer.Produce(rw, payload); err != nil {
+			panic(err) // let the recovery middleware deal with this
+		}
+	}
+}
