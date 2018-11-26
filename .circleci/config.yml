@@ -18,6 +18,8 @@ jobs:
       - image: circleci/golang:latest
     working_directory: /go/src/github.com/sul-dlss/rialto-entity-resolver
     steps:
+      - setup_remote_docker:
+          version: 18.05.0-ce
       - checkout
       - run:
           name: Build Image & Register Task
