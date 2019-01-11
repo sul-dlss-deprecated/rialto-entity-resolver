@@ -84,5 +84,6 @@ func (r *SparqlReader) QueryByTypePredicateAndObject(entityType string, predicat
 }
 
 func (r *SparqlReader) escapeLiteral(literal string) string {
-	return strings.Replace(literal, "\"", "\\\"", -1)
+	newLiteral := strings.Replace(literal, "\\", "\\\\", -1)
+	return strings.Replace(newLiteral, "\"", "\\\"", -1)
 }
