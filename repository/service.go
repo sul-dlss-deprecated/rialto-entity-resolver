@@ -2,6 +2,7 @@ package repository
 
 import (
 	"fmt"
+	"strings"
 )
 
 // Repository is an interface that rialto-entity-resolver reads from as its source
@@ -69,6 +70,18 @@ func (m *Service) QueryForPersonByName(firstName string, lastName string) (*stri
 		personType,
 		altLabel,
 		fmt.Sprintf("%s, %s", lastName, firstName))
+
+	if err != nil {
+		return nil, err
+	} else if uri != nil {
+		return uri, nil
+	}
+
+	// If no match, query again with downcase
+	uri, err = m.reader.QueryByTypePredicateAndObject(
+		personType,
+		altLabel,
+		strings.ToLower(fmt.Sprintf("%s, %s", lastName, firstName)))
 
 	if err != nil {
 		return nil, err
