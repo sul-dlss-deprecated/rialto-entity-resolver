@@ -1,5 +1,7 @@
 # RIALTO Entity Resolver
 
+[![](https://images.microbadger.com/badges/image/suldlss/rialto-entity-resolver.svg)](https://microbadger.com/images/suldlss/rialto-entity-resolver "Get your own image badge on microbadger.com")
+
 Use this service if you want to resolve some properties about an entity to a known URI. If the entity is not found in RIALTO, one will be created.
 
 ## Generate server
